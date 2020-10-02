@@ -2,21 +2,24 @@
 
 require_once("vendor/autoload.php");
 
-$app = new \Slim\Slim();
+use \Slim\Slim;
+use \Hcode\Page;
+
+$app = new Slim();
 
 $app->config('debug', true);
 
 $app->get('/', 
-function()
-{
-    $sql = new Hcode\DB\Sql();
-  
-    $results = $sql->select("SELECT * FROM tb_users");
-
-    echo json_encode($results);
-   
-}
+    function()
+    {
+        // cria o objeto e já adicion o header
+        $page = new Page();
+        
+        // adicona o corpo do html
+        $page->setTpl("index");
+    }
 );
 
 $app->run();
+
 ?>
