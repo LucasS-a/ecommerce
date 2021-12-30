@@ -13,7 +13,7 @@ services:
     - project
 
   php:
-    image: php:7.3-fpm
+    build: .
     container_name: php-fpm
     volumes:
     - ./:/var/www
@@ -27,8 +27,12 @@ services:
      - "3306:3306"
     restart: always
     environment:
-      MYSQL_DATABASE: teste
+      MYSQL_DATABASE: db_teste
       MYSQL_ROOT_PASSWORD: password
+      MYSQL_PASSWORD: password
+      MYSQL_USER: lucas
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
     volumes:
       - ./conf/mysql:/docker-entrypoint-initdb.d
     networks:
