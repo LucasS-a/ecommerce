@@ -1,8 +1,8 @@
 <?php
 
-namespace Hcode;
+namespace Hcode\Model;
 
-use Hcode\Model\Person;
+use Hcode\Person;
 use Hcode\DB\Sql;
 
 class User extends Person

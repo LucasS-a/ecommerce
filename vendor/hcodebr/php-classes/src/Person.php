@@ -1,6 +1,6 @@
 <?php
 
-namespace Hcode\Model;
+namespace Hcode;
 
 use DateTime;
 use Hcode\DB\Sql;

@@ -1,13 +1,35 @@
 <?php
 
-use Hcode\User;
+use Hcode\Page;
+use \Psr\Http\Message\ServerRequestInterface as Request;
+use \Psr\Http\Message\RequestInterface as Response;
+use Slim\App;
 
 require_once('vendor/autoload.php');
 
-$p = new User;
+$config = [
+    'settings' => [
+        'displayErrorDetails' => true, # change this <------
+        
+                'addContentLengthHeader' => false /* permite que o servidor
+                                                     da web defina o cabeçalho 
+                                                     Content-Length, o que faz
+                                                     com que o Slim se comporte
+                                                     de maneira mais previsível.*/
+        ],
+];
 
-$p->loadById(1);
+$app = new App($config);
 
-echo $p;
+$app->get('/', 
+    function(){
+        $page = new Page();
+
+        $page->setTpl('index');
+
+    }
+);
+
+$app->run();
 
 ?>
