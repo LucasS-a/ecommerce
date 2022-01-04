@@ -16,7 +16,7 @@ class Page
                 'data' => []
             );
 
-    public function __construct($opts = array())
+    public function __construct($opts = array(), $tpl_dir = '/views/site')
     {
         $this->options = array_merge($this->defauts, $opts);
 
@@ -27,8 +27,8 @@ class Page
         );
 
         $loader = new FilesystemLoader([
-            $_SERVER['DOCUMENT_ROOT'] . '/views',
-            $_SERVER['DOCUMENT_ROOT'] . '/views/layouts'
+            $_SERVER['DOCUMENT_ROOT'] . $tpl_dir,
+            $_SERVER['DOCUMENT_ROOT'] . $tpl_dir . '/layouts'
         ]);
 
         $this->twig = new Environment($loader, $config);
