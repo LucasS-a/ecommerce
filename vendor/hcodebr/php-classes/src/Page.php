@@ -37,12 +37,12 @@ class Page
         
         $this->template->render($this->options['data']);
 
-        $this->template->display();
+        if( $this->options['header'] === true) $this->template->display();
     }
 
     public function setTpl($name, $data = array(), $returnHTML = false)
     {
-        $this->template = $this->twig->load($name . '.html.twig');
+        $this->template = $this->twig->load($name);
 
         echo $this->template->render($data);
     }
@@ -54,7 +54,7 @@ class Page
 
         $this->template->render($this->options['data']);
         
-        $this->template->display();
+        if( $this->options['footer'] === true) $this->template->display();
     }
 }
 

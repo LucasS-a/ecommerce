@@ -2,75 +2,62 @@
 
 namespace Hcode\Model;
 
-use Hcode\Person;
 use Hcode\DB\Sql;
+use Hcode\Model;
 
-class User extends Person
-{
-    private $deslogin;
-    private $despassword;
-    private $inadmin;
+class User extends Model{
 
-    public function loadById($id)
+    const SESSION = 'User';
+
+    public static function login($login, $password)
     {
-        parent::loadById($id);
+        $sql = new Sql();
 
-        $sql = new Sql;
+        $results = $sql->select("SELECT * FROM tb_users WHERE deslogin=:LOGIN", [
+            'LOGIN' => $login
+        ]);
 
-        $result = $sql->select('SELECT * FROM tb_users WHERE iduser = :ID', array(
-            ':ID' => $id
-        ));
-        if(count($result) > 0)
+        
+        if( count($results) == 0)
         {
-            $row = $result[0];
-
-            $this->setDeslogin($row['deslogin']);
-            $this->setDespassword($row['despassword']);
-            $this->setInadmin($row['inadmin']);
-        }else{
-            echo 'Usuário não encontrado';
+            throw new \Exception("Usuário inexistente ou senha inválida.");
         }
 
-    }
-    public function __toString()
-    {
-        return json_encode(array(
-            'desperson' => parent::getDesperson(),
-            'deslogin' => $this->getDeslogin(),
-            'despassword' => $this->getPassword(),
-            'inadmin' => $this->getInadmin(),
-            'desemail' => parent::getDesemail(),
-            'nrphone' => parent::getNrphone(),
-            'dtregister' => parent::getDtregister()->format('d/m/Y H:i:s')
-        ), JSON_UNESCAPED_SLASHES);
+        $data = $results[0];
+
+        if(password_verify($password, $data['despassword']))
+        {
+            $user = new User();
+
+            $user->setData($data);
+
+            $_SESSION[User::SESSION] = $user->getValues();
+
+        }else{
+            throw new \Exception("Usuário inexistente ou senha inválida.");
+        }
     }
 
-    public function setDeslogin($deslogin)
+    public static function verifyLogin()
     {
-        $this->deslogin = $deslogin;
+        if (
+            !isset($_SESSION[User::SESSION])
+            ||
+            !$_SESSION[User::SESSION]
+            ||
+            !(int)$_SESSION[User::SESSION]['iduser'] > 0
+            ||
+            !(bool)$_SESSION[User::SESSION]['inadmin']
+        ){
+            header("Location: /admin/login");
+            exit;
+        }
     }
-    public function getDeslogin()
+    public static function logout()
     {
-        return $this->deslogin;
+        $_SESSION[User::SESSION] = NULL;
     }
 
-    public function setDespassword($despassword)
-    {
-        $this->despassword = $despassword;
-    }
-    public function getPassword()
-    {
-        return $this->despassword;
-    }
-
-    public function setInadmin($inadmin)
-    {
-        $this->inadmin = $inadmin;
-    }
-    public function getInadmin()
-    {
-        return $this->inadmin;
-    }
 }
 
 ?>

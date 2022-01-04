@@ -216,7 +216,7 @@ class __TwigTemplate_40c43228ecb43c67d6f7f4e13f55ef30d59a1c0e47d922e200d6849c51b
                   <a href=\"#\" class=\"btn btn-default btn-flat\">Profile</a>
                 </div>
                 <div class=\"pull-right\">
-                  <a href=\"#\" class=\"btn btn-default btn-flat\">Sign out</a>
+                  <a href=\"/admin/logout\" class=\"btn btn-default btn-flat\">Sign out</a>
                 </div>
               </li>
             </ul>
