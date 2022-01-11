@@ -21,13 +21,13 @@ services:
       - project
   
   db:
-    image: mysql:5.7
+    image: mysql:5.7.27
     container_name: mysql
     ports:
      - "3306:3306"
     restart: always
     environment:
-      MYSQL_DATABASE: db_teste
+      MYSQL_DATABASE: db_ecommerce
       MYSQL_ROOT_PASSWORD: password
       MYSQL_PASSWORD: password
       MYSQL_USER: lucas

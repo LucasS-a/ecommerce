@@ -8,11 +8,12 @@ class Sql{
     
     const HOSTNAME = 'mysql';
     const PORT = '3306';
-    const DBNAME = 'db_teste';
+    const DBNAME = 'db_ecommerce';
     const USERNAME = 'lucas';
     const PASSWORD = 'password';
 
     private $conn;
+    private $stmt;
 
     public function __construct()
     {
@@ -24,31 +25,33 @@ class Sql{
 
     }
 
-    private function setParams($statment, $params)
+    private function setParams($params)
     {
         foreach( $params as $key => $value )
         {
-            $statment->bindParam($key, $value);
+            $this->setParam($key, $value);
         }
+    }
+    private function setParam($key, $value)
+    {
+        $this->stmt->bindParam($key, $value);
     }
 
     public function query($rawQuery, $params = array())
     {
-        $stmt = $this->conn->prepare($rawQuery);
+        $this->stmt = $this->conn->prepare($rawQuery);
 
-        $this->setParams($stmt, $params);
+        $this->setParams($params);
 
-        $stmt->execute();
-
-        return $stmt;
+        $this->stmt->execute();
 
     }
 
-    public function select($rawQuery, $params = array())
+    public function select($rawQuery, $params = array()):array
     {
-        $stmt = $this->query($rawQuery, $params);
+        $this->query($rawQuery, $params);
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
 }
