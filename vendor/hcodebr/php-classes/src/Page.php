@@ -30,6 +30,10 @@ class Page
             $_SERVER['DOCUMENT_ROOT'] . $tpl_dir,
             $_SERVER['DOCUMENT_ROOT'] . $tpl_dir . '/layouts'
         ]);
+        if ($tpl_dir === '/views/admin'){
+            $loader->addPath($_SERVER['DOCUMENT_ROOT'] . $tpl_dir . '/crud');
+            $loader->addPath($_SERVER['DOCUMENT_ROOT'] . $tpl_dir . '/forgot');
+        }
 
         $this->twig = new Environment($loader, $config);
 

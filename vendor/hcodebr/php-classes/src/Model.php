@@ -4,7 +4,7 @@ namespace Hcode;
 
 class Model{
 
-    private $value = [];
+    private $values = [];
 
     public function __call($name, $arg)
     {
@@ -17,12 +17,12 @@ class Model{
                 break;
             
             case 'set':
-                $this->value[$fieldName] = $arg[0];
+                $this->values[$fieldName] = $arg[0];
                 break;
         }
     }
 
-    public function setData($data)
+    public function setValues($data)
     {
         foreach ($data as $key => $value)
         {
@@ -32,7 +32,7 @@ class Model{
 
     public function getValues()
     {
-        return $this->value;
+        return $this->values;
     }
 
 }
