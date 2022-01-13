@@ -6,6 +6,7 @@ services:
     restart: always
     ports: 
       - "80:80"
+      - "465:465"
     volumes:
     - ./:/var/www
     - ./conf/nginx/site.conf:/etc/nginx/conf.d/site.conf
@@ -38,6 +39,8 @@ services:
     networks:
       - project
 
+volumes:
+  my-datavolume:
 
 networks:
   project:
