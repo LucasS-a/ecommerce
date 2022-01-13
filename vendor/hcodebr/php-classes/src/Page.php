@@ -33,6 +33,7 @@ class Page
         if ($tpl_dir === '/views/admin'){
             $loader->addPath($_SERVER['DOCUMENT_ROOT'] . $tpl_dir . '/crud');
             $loader->addPath($_SERVER['DOCUMENT_ROOT'] . $tpl_dir . '/forgot');
+            $loader->addPath($_SERVER['DOCUMENT_ROOT'] . $tpl_dir . '/category');
         }
 
         $this->twig = new Environment($loader, $config);

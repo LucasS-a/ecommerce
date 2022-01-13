@@ -30,7 +30,7 @@
   </div>
   
    <div class="help-block text-center">
-     Olá {$name}, digite uma nova senha:
+     Olá {{ name }}, digite uma nova senha:
     </div>
 
   <!-- START LOCK SCREEN ITEM -->
@@ -38,7 +38,7 @@
 
     <!-- lockscreen credentials (contains the form) -->
     <form  action="/admin/forgot/reset" method="post">
-      <input type="hidden" name="code" value="{$code}">
+      <input type="hidden" name="code" value="{{ code }}">
       <div class="input-group">
         <input type="password" class="form-control" placeholder="Digite a nova senha" name="password">
         <div class="input-group-btn">
