@@ -17,7 +17,15 @@ class Model{
                 break;
             
             case 'set':
-                $this->values[$fieldName] = $arg[0];
+                if ( $fieldName === 'despassword' && strlen((string)$arg[0]) < 20 ){
+
+                    $this->values[$fieldName] = password_hash($arg[0], PASSWORD_DEFAULT,[
+                        'cost' => 12
+                    ]);
+
+                }else {
+                    $this->values[$fieldName] = $arg[0];
+                }
                 break;
         }
     }

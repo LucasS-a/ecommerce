@@ -152,6 +152,8 @@ $app->get('/admin/users/{iduser}/delete',
 
         $user->get((int)$args['iduser']);
 
+        var_dump($user->getiduser());
+
         $user->delete();
 
         header('location: /admin/users');
@@ -211,11 +213,9 @@ $app->post('/admin/forgot/reset',
 
         $user->get((int)$forgot['iduser']);
 
-        $password = password_hash($_POST['password'], PASSWORD_DEFAULT,[
-            'cost' => 12
-        ]);
+        $user->setdespassword($_POST["password"]);
 
-        $user->setPassword($password);
+        $user->save();
 
         $page = new PageAdmin([
             'header' => false,
