@@ -91,12 +91,11 @@ class __TwigTemplate_26a3744a6ca43beb7e20ebf091cedfa8472ef57e05953812aa7a2bc402d
                     <div class=\"footer-menu\">
                         <h2 class=\"footer-wid-title\">Categorias</h2>
                         <ul>
-                            <li><a href=\"#\">Categoria Um</a></li>
-                            <li><a href=\"#\">Categoria Dois</a></li>
-                            <li><a href=\"#\">Categoria Três</a></li>
-                            <li><a href=\"#\">Categoria Quarto</a></li>
-                            <li><a href=\"#\">Categoria Cinco</a></li>
-                        </ul>                        
+                            ";
+        // line 39
+        $this->loadTemplate("categories.html", "footer.html.twig", 39)->display($context);
+        // line 40
+        echo "                        </ul>                        
                     </div>
                 </div>
                 
@@ -171,7 +170,7 @@ class __TwigTemplate_26a3744a6ca43beb7e20ebf091cedfa8472ef57e05953812aa7a2bc402d
 
     public function getDebugInfo()
     {
-        return array (  63 => 8,  59 => 7,  53 => 4,  47 => 3,  36 => 1,);
+        return array (  98 => 40,  96 => 39,  63 => 8,  59 => 7,  53 => 4,  47 => 3,  36 => 1,);
     }
 
     public function getSourceContext()

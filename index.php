@@ -317,6 +317,22 @@ $app->post('/admin/categories/{idcategory}',
     }
 );
 
+$app->get('/categories/{idcategory}',
+    function($request, $response, $args){
+
+        $category = new Category();
+
+        $category->get((int)$args['idcategory']);
+
+        $page = new Page();
+
+        $page->setTpl('category.html.twig',[
+            'category' => $category->getValues(),
+            'products' => []
+        ]);
+    }
+);
+
 
 $app->run();
 
