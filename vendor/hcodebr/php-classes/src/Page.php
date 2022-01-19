@@ -14,6 +14,7 @@ class Page
 {
     private $twig,
             $template,
+            $loader,
             $options = array(),
             $defauts = array(
                 'header' => true,
@@ -39,17 +40,12 @@ class Page
             'auto_reload' => true
         );
 
-        $loader = new FilesystemLoader([
+        $this->loader = new FilesystemLoader([
             $_SERVER['DOCUMENT_ROOT'] . $tpl_dir,
             $_SERVER['DOCUMENT_ROOT'] . $tpl_dir . '/layouts'
         ]);
-        if ($tpl_dir === '/views/admin'){
-            $loader->addPath($_SERVER['DOCUMENT_ROOT'] . $tpl_dir . '/crud');
-            $loader->addPath($_SERVER['DOCUMENT_ROOT'] . $tpl_dir . '/forgot');
-            $loader->addPath($_SERVER['DOCUMENT_ROOT'] . $tpl_dir . '/category');
-        }
 
-        $this->twig = new Environment($loader, $config);
+        $this->twig = new Environment($this->loader, $config);
 
         $this->template = $this->twig->load('header.html.twig');
         
@@ -68,6 +64,17 @@ class Page
      */
     public function setTpl($name, $data = array())
     {
+        // a pasta é só primeiro nome.
+        $aux = is_bool(strpos($name, "-")) ? strpos($name, ".") : strpos($name, "-");
+        
+        $folder = substr($name, 0, $aux);
+
+        if($folder !== 'index' && $folder !== 'login' && $this->defauts['data']['tpl_dir'])
+        {
+            $this->loader->addPath($_SERVER['DOCUMENT_ROOT'].'/views/admin/' . $folder);
+        }
+        echo $_SERVER['DOCUMENT_ROOT'].'/views/admin/' . $folder;
+
         $this->template = $this->twig->load($name);
 
         echo $this->template->render($data);
