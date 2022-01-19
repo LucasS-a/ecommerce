@@ -5,6 +5,11 @@ namespace Hcode;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
+/**
+ * Page
+ * 
+ * Essa classe rederiza os templates das páginas. 
+ */
 class Page
 {
     private $twig,
@@ -15,7 +20,15 @@ class Page
                 'footer' => true,
                 'data' => []
             );
-
+    
+    /**
+     * __construct
+     * Configura onde estão os diretórios dos htmls, e rederiza o cabreçalho.
+     * 
+     * @param  array $opts
+     * @param  string $tpl_dir
+     * @return void
+     */
     public function __construct($opts = array(), $tpl_dir = '/views/site')
     {
         $this->options = array_merge($this->defauts, $opts);
@@ -44,14 +57,28 @@ class Page
 
         if( $this->options['header'] === true) $this->template->display();
     }
-
-    public function setTpl($name, $data = array(), $returnHTML = false)
+    
+    /**
+     * setTpl
+     * Rederiza o template do corpo da página. 
+     * 
+     * @param  string $name
+     * @param  array $data
+     * @return void
+     */
+    public function setTpl($name, $data = array())
     {
         $this->template = $this->twig->load($name);
 
         echo $this->template->render($data);
     }
-
+        
+    /**
+     * __destruct
+     * Esse método também rederiza o footer da página. 
+     * 
+     * @return void
+     */
     public function __destruct()
     {
 

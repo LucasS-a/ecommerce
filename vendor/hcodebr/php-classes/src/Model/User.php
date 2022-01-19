@@ -5,6 +5,13 @@ namespace Hcode\Model;
 use Hcode\DB\Sql;
 use Hcode\Mailer;
 use Hcode\Model;
+/**
+ * User: 
+ * Essa classe é responsável por todas as interações do objeto User com o resto da aplicação,
+ * ela verifica se está logado, busca os usuários, adiciona e deleta no banco.
+ * 
+ * @copyright (c) 2021, Lucas S. de Araujo 
+ */
 
 class User extends Model{
 
@@ -12,6 +19,14 @@ class User extends Model{
     const SECRET_KEY = "HcodePhp7_Secret";
     const SECRET_IV = "This is my secret iv";
 
+    /**
+     * login: 
+     * Essa classe é responsável por veiricar se os dados fornecidos pelo usuário, são de algum 
+     * usuário cadastrado no banco, se tiver seta os atributos vindo do banco no objeto.
+     * 
+     *  @param string $login.
+     *  @param string $password. 
+     */
     public static function login($login, $password)
     {
         $sql = new Sql();
@@ -39,7 +54,15 @@ class User extends Model{
             throw new \Exception("Usuário inexistente ou senha inválida.");
         }
     }
-
+    /**
+     * verifyLogin:
+     * Método que veirifica se exite uma sessão, se o usuário está logado e se ele tem 
+     * acesso administrativo. Se não satisfazer os requisitos redireciona o usário para
+     * a página de login.
+     * 
+     *  @param void.
+     *  @return void.  
+     */
     public static function verifyLogin()
     {
         if (
@@ -55,18 +78,38 @@ class User extends Model{
             exit;
         }
     }
+        
+    /**
+     * logout:
+     * Método que faz o logout da página administrativo.
+     *
+     * @return void
+     */
     public static function logout()
     {
         $_SESSION[User::SESSION] = NULL;
     }
 
+        
+    /**
+     * listAll: 
+     * Método que reotorna um array com todos os usários cadastrados no banco de dados.
+     *
+     * @return void
+     */
     public static function listAll()
     {
         $sql = new Sql();
 
         return $sql->select('SELECT * FROM tb_users a INNER JOIN tb_persons b USING(idperson) ORDER BY b.desperson');
     }
-
+    
+    /**
+     * save:
+     * Salva os dados do usuário no banco de dados.
+     *
+     * @return void
+     */
     public function save()
     {
         $sql = new Sql();
@@ -83,7 +126,14 @@ class User extends Model{
         $this->setValues($results[0]);
 
     }
-    
+        
+    /**
+     * get:
+     * Busca no banco de dados o usuário dono id fornecido.
+     *
+     * @param  int $iduser
+     * @return void
+     */
     public function get($iduser)
     {
         $sql = new Sql();
@@ -94,7 +144,13 @@ class User extends Model{
 
         $this->setValues($results[0]);
     }
-
+    
+    /**
+     * update:
+     * Atualiza no banco os dados do usário.
+     *
+     * @return void
+     */
     public function update()
     {
         $sql = new Sql();
@@ -112,7 +168,13 @@ class User extends Model{
         
         $this->setValues($results[0]);
     }
-
+    
+    /**
+     * delete:
+     * Exclui o cadastro de um usuário.
+     *
+     * @return void
+     */
     public function delete()
     {
         $sql = new Sql();
@@ -122,7 +184,16 @@ class User extends Model{
         ]);
 
     }
-
+        
+    /**
+     * getForgot:
+     * Método que recebe um email e veirfica se está cadastrsdo no banco, se estiver salva na tabela tb_userspasswordsrecoveries um registro.
+     * para validar a ação no método $this->validForgotDecrypt(). Depois controi um template que será enviado para o email em questão, com um
+     * link com id desse registro na tabela tb_userspasswordsrecoveries para redefinir a senha.
+     *
+     * @param  string $email
+     * @return void
+     */
     public static function getForgot($email)
     {
         $sql = new Sql();
@@ -172,7 +243,15 @@ class User extends Model{
                 return $data;
             }
         }
-    }
+    }    
+    /**
+     * validForgotDecrypt:
+     * Método que recebe um $código criptografado, enviado no email do usuário pelo método $this->getForgot().
+     * Esse método descriptografa o código pega id e busca no banco o registro. 
+     *
+     * @param  mixed $code
+     * @return void
+     */
     public static function validForgotDecrypt($code)
     {
         $key = hash('sha256', User::SECRET_KEY);
@@ -205,6 +284,14 @@ class User extends Model{
         }
 
     }
+        
+    /**
+     * setForgotUsed
+     * Método que atualiza no banco a tabela tb_userspasswordsrecoveries, para que o código não seje mais utilizável.
+     *
+     * @param  int $idrecovery
+     * @return void
+     */
     public static function setForgotUsed( $idrecovery )
     {
         $sql = new Sql();
@@ -213,7 +300,13 @@ class User extends Model{
         array(
             'idrecovery' => $idrecovery
         ));
-    }
+    }    
+    /**
+     * setPassword
+     *
+     * @param  string $password
+     * @return void
+     */
     public function setPassword($password)
     {
         $sql = new Sql();

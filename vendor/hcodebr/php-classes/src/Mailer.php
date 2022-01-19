@@ -16,7 +16,18 @@ class Mailer{
 
 
     private $mail;
-
+    
+    /**
+     * __construct
+     * Constroi um template para ser enviado para email fornecido.
+     *
+     * @param  string $toAddrass
+     * @param  string $subject
+     * @param  string $toName
+     * @param  string $nameTpl
+     * @param  array $data
+     * @return void
+     */
     public function __construct($toAddrass, $subject, $toName, $nameTpl, $data = array())
     {
         $config = array(
@@ -100,6 +111,13 @@ class Mailer{
 
     }
 
+        
+    /**
+     * send
+     * Método que envia o email.
+     *
+     * @return void
+     */
     public function send()
     {
         return $this->mail->send();
