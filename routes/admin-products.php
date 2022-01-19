@@ -1,13 +1,14 @@
 <?php
-
-session_start();
-
-require_once('vendor/autoload.php');
-
+use Hcode\Page;
+use Hcode\PageAdmin;
+use Hcode\Model\User;
+use Hcode\Model\Category;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\RequestInterface as Response;
 use Slim\App;
-use Hcode\Page;
+
+
+require_once('vendor/autoload.php');
 
 $config = [
     'settings' => [
@@ -22,21 +23,4 @@ $config = [
 ];
 
 $app = new App($config);
-
-$app->get('/', 
-    function(){
-        $page = new Page();
-
-        $page->setTpl('index.html.twig');
-    }
-);
-
-require_once("site.php");
-require_once('routes/admin.php');
-require_once('routes/admin-categories.php');
-require_once('routes/admin-products.php');
-require_once('routes/admin-users.php');
-
-$app->run();
-
 ?>
