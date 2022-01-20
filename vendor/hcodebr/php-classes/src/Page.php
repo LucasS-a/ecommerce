@@ -40,18 +40,18 @@ class Page
             'auto_reload' => true
         );
 
-        $this->loader = new FilesystemLoader([
+        $loader = new FilesystemLoader([
             $_SERVER['DOCUMENT_ROOT'] . $tpl_dir,
             $_SERVER['DOCUMENT_ROOT'] . $tpl_dir . '/layouts'
         ]);
 
-        $this->twig = new Environment($this->loader, $config);
+        $this->twig = new Environment($loader, $config);
 
-        $this->template = $this->twig->load('header.html.twig');
+        $template = $this->twig->load('header.html.twig');
         
-        $this->template->render($this->options['data']);
+        $template->render($this->options['data']);
 
-        if( $this->options['header'] === true) $this->template->display();
+        if( $this->options['header'] === true) $template->display();
     }
     
     /**
@@ -64,20 +64,30 @@ class Page
      */
     public function setTpl($name, $data = array())
     {
-        // a pasta é só primeiro nome.
         $aux = is_bool(strpos($name, "-")) ? strpos($name, ".") : strpos($name, "-");
-        
+
         $folder = substr($name, 0, $aux);
 
-        if($folder !== 'index' && $folder !== 'login' && $this->defauts['data']['tpl_dir'])
+        if(($folder !== 'index') && ($folder !== 'login') && ( $this->defaults['data']['is_admin'] ))
         {
-            $this->loader->addPath($_SERVER['DOCUMENT_ROOT'].'/views/admin/' . $folder);
+            $loader = new FilesystemLoader([
+                $_SERVER['DOCUMENT_ROOT'] . $this->defaults['data']['tpl_dir'],
+                $_SERVER['DOCUMENT_ROOT'] . $this->defaults['data']['tpl_dir'] . '/layouts',
+                $_SERVER['DOCUMENT_ROOT']. $this->defaults['data']['tpl_dir'] .'/' . $folder]);
+
+            $twig = new Environment($loader);
+            
+            $template = $twig->load($name);
+
+            echo $template->render($data);
+            
+        }else{
+
+            $template = $this->twig->load($name);
+
+            echo $template->render($data);
         }
-        echo $_SERVER['DOCUMENT_ROOT'].'/views/admin/' . $folder;
 
-        $this->template = $this->twig->load($name);
-
-        echo $this->template->render($data);
     }
         
     /**
@@ -89,11 +99,11 @@ class Page
     public function __destruct()
     {
 
-        $this->template = $this->twig->load('footer.html.twig');
+        $template = $this->twig->load('footer.html.twig');
 
-        $this->template->render($this->options['data']);
+        $template->render($this->options['data']);
         
-        if( $this->options['footer'] === true) $this->template->display();
+        if( $this->options['footer'] === true) $template->display();
     }
 }
 

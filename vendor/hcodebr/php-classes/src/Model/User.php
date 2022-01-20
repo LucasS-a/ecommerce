@@ -232,7 +232,7 @@ class User extends Model{
 
                 $subject = "Redefinir a senha";
 
-                $mailer = new Mailer($data['desemail'], $subject, $data['desperson'], 'forgot.html.twig',
+                $mailer = new Mailer($data['desemail'], $subject, $data['desperson'], 'email.html.twig',
                 array(
                     'name' => $data['desperson'], 
                     'link' => $link
