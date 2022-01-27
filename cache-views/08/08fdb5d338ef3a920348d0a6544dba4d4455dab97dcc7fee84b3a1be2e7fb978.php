@@ -34,7 +34,7 @@ class __TwigTemplate_6772a45798c3fa789424c47524652c55a01e755e10be9842226e886e13e
     {
         $macros = $this->macros;
         // line 1
-        echo "<li><a href=/categories/2>Apple</a></li><li><a href=/categories/4>LG</a></li><li><a href=/categories/3>Motorola</a></li><li><a href=/categories/1>Samsung</a></li>";
+        echo "<li><a href=/categories/2>Apple</a></li><li><a href=/categories/5>LG</a></li><li><a href=/categories/3>Motorola</a></li><li><a href=/categories/1>Samsung</a></li>";
     }
 
     public function getTemplateName()

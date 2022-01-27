@@ -14,6 +14,20 @@ class Product extends Model{
         return $sql->select('SELECT * FROM tb_products ORDER BY desproduct');
     }
 
+    public function checkList(array $list)
+    {
+        foreach( $list as &$row )
+        {
+            $product = new Product;
+
+            $product->setValues($row);
+
+            $row = $product->getValues();
+        }
+        
+        return $list;
+    }
+
     public function save()
     {
         $sql = new Sql();

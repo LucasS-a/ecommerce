@@ -196,96 +196,48 @@ class __TwigTemplate_526c4045841bb72057a8cf2fe67bcb43a3bdec345f4d9b6bb686c85d2c5
                     <div class=\"latest-product\">
                         <h2 class=\"section-title\">Produtos</h2>
                         <div class=\"product-carousel\">
-                            <div class=\"single-product\">
-                                <div class=\"product-f-image\">
-                                    <img src=\"/res/site/img/product-1.jpg\" alt=\"\">
-                                    <div class=\"product-hover\">
-                                        <a href=\"#\" class=\"add-to-cart-link\"><i class=\"fa fa-shopping-cart\"></i> Add to cart</a>
-                                        <a href=\"#\" class=\"view-details-link\"><i class=\"fa fa-link\"></i> See details</a>
+                            ";
+        // line 137
+        $context['_parent'] = $context;
+        $context['_seq'] = twig_ensure_traversable(($context["products"] ?? null));
+        foreach ($context['_seq'] as $context["_key"] => $context["product"]) {
+            // line 138
+            echo "                                <div class=\"single-product\">
+                                    <div class=\"product-f-image\">
+                                        <img src=";
+            // line 140
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["product"], "desphoto", [], "any", false, false, false, 140), "html", null, true);
+            echo " alt=\"\">
+                                        <div class=\"product-hover\">
+                                            <a href=\"#\" class=\"add-to-cart-link\"><i class=\"fa fa-shopping-cart\"></i>Comprar</a>
+                                            <a href=\"/products/";
+            // line 143
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["product"], "desurl", [], "any", false, false, false, 143), "html", null, true);
+            echo "\" class=\"view-details-link\"><i class=\"fa fa-link\"></i>Detalhes</a>
+                                        </div>
                                     </div>
+                                    
+                                    <h2><a href=\"/products/";
+            // line 147
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["product"], "desurl", [], "any", false, false, false, 147), "html", null, true);
+            echo "\">";
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["product"], "desproduct", [], "any", false, false, false, 147), "html", null, true);
+            echo "</a></h2>
+                                    
+                                    <div class=\"product-carousel-price\">
+                                        <ins>R\$ ";
+            // line 150
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["product"], "vlprice", [], "any", false, false, false, 150), "html", null, true);
+            echo "</ins>
+                                    </div> 
                                 </div>
-                                
-                                <h2><a href=\"#\">Samsung Galaxy s5- 2015</a></h2>
-                                
-                                <div class=\"product-carousel-price\">
-                                    <ins>\$700.00</ins> <del>\$100.00</del>
-                                </div> 
-                            </div>
-                            <div class=\"single-product\">
-                                <div class=\"product-f-image\">
-                                    <img src=\"/res/site/img/product-2.jpg\" alt=\"\">
-                                    <div class=\"product-hover\">
-                                        <a href=\"#\" class=\"add-to-cart-link\"><i class=\"fa fa-shopping-cart\"></i> Add to cart</a>
-                                        <a href=\"#\" class=\"view-details-link\"><i class=\"fa fa-link\"></i> See details</a>
-                                    </div>
-                                </div>
-                                
-                                <h2>Nokia Lumia 1320</h2>
-                                <div class=\"product-carousel-price\">
-                                    <ins>\$899.00</ins> <del>\$999.00</del>
-                                </div> 
-                            </div>
-                            <div class=\"single-product\">
-                                <div class=\"product-f-image\">
-                                    <img src=\"/res/site/img/product-3.jpg\" alt=\"\">
-                                    <div class=\"product-hover\">
-                                        <a href=\"#\" class=\"add-to-cart-link\"><i class=\"fa fa-shopping-cart\"></i> Add to cart</a>
-                                        <a href=\"#\" class=\"view-details-link\"><i class=\"fa fa-link\"></i> See details</a>
-                                    </div>
-                                </div>
-                                
-                                <h2>LG Leon 2015</h2>
-
-                                <div class=\"product-carousel-price\">
-                                    <ins>\$400.00</ins> <del>\$425.00</del>
-                                </div>                                 
-                            </div>
-                            <div class=\"single-product\">
-                                <div class=\"product-f-image\">
-                                    <img src=\"/res/site/img/product-4.jpg\" alt=\"\">
-                                    <div class=\"product-hover\">
-                                        <a href=\"#\" class=\"add-to-cart-link\"><i class=\"fa fa-shopping-cart\"></i> Add to cart</a>
-                                        <a href=\"#\" class=\"view-details-link\"><i class=\"fa fa-link\"></i> See details</a>
-                                    </div>
-                                </div>
-                                
-                                <h2><a href=\"#\">Sony microsoft</a></h2>
-
-                                <div class=\"product-carousel-price\">
-                                    <ins>\$200.00</ins> <del>\$225.00</del>
-                                </div>                            
-                            </div>
-                            <div class=\"single-product\">
-                                <div class=\"product-f-image\">
-                                    <img src=\"/res/site/img/product-5.jpg\" alt=\"\">
-                                    <div class=\"product-hover\">
-                                        <a href=\"#\" class=\"add-to-cart-link\"><i class=\"fa fa-shopping-cart\"></i> Add to cart</a>
-                                        <a href=\"#\" class=\"view-details-link\"><i class=\"fa fa-link\"></i> See details</a>
-                                    </div>
-                                </div>
-                                
-                                <h2>iPhone 6</h2>
-
-                                <div class=\"product-carousel-price\">
-                                    <ins>\$1200.00</ins> <del>\$1355.00</del>
-                                </div>                                 
-                            </div>
-                            <div class=\"single-product\">
-                                <div class=\"product-f-image\">
-                                    <img src=\"/res/site/img/product-6.jpg\" alt=\"\">
-                                    <div class=\"product-hover\">
-                                        <a href=\"#\" class=\"add-to-cart-link\"><i class=\"fa fa-shopping-cart\"></i> Add to cart</a>
-                                        <a href=\"#\" class=\"view-details-link\"><i class=\"fa fa-link\"></i> See details</a>
-                                    </div>
-                                </div>
-                                
-                                <h2><a href=\"#\">Samsung gallaxy note 4</a></h2>
-
-                                <div class=\"product-carousel-price\">
-                                    <ins>\$400.00</ins>
-                                </div>                            
-                            </div>
-                        </div>
+                            ";
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['product'], $context['_parent'], $context['loop']);
+        $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 154
+        echo "                        </div>
                     </div>
                 </div>
             </div>
@@ -328,7 +280,7 @@ class __TwigTemplate_526c4045841bb72057a8cf2fe67bcb43a3bdec345f4d9b6bb686c85d2c5
 
     public function getDebugInfo()
     {
-        return array (  73 => 11,  69 => 10,  63 => 7,  57 => 6,  52 => 4,  48 => 3,  37 => 1,);
+        return array (  240 => 154,  230 => 150,  222 => 147,  215 => 143,  209 => 140,  205 => 138,  201 => 137,  73 => 11,  69 => 10,  63 => 7,  57 => 6,  52 => 4,  48 => 3,  37 => 1,);
     }
 
     public function getSourceContext()

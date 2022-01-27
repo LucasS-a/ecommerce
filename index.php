@@ -2,13 +2,6 @@
 
 session_start();
 
-use Hcode\DB\Sql;
-use Hcode\Page;
-use Hcode\PageAdmin;
-use Hcode\Model\User;
-use Hcode\Model\Category;
-use \Psr\Http\Message\ServerRequestInterface as Request;
-use \Psr\Http\Message\RequestInterface as Response;
 use Slim\App;
 
 
