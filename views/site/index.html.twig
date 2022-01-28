@@ -147,7 +147,7 @@
                                     <h2><a href="/products/{{ product.desurl }}">{{ product.desproduct }}</a></h2>
                                     
                                     <div class="product-carousel-price">
-                                        <ins>R$ {{ product.vlprice }}</ins>
+                                        <ins>R$ {{ product.vlprice |number_format(2, ',', '.') }}</ins>
                                     </div> 
                                 </div>
                             {% endfor %}

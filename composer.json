@@ -6,6 +6,9 @@
             "email": "suporte@gmail.com"
         }
     ],
+    "github-oauth": {
+        "github.com": "token"
+    },
     "require": {
         "phpmailer/phpmailer": "^6.5",
         "slim/slim":"3.*",
