@@ -1,9 +1,9 @@
 <?php
 
-use Hcode\Page;
 use Hcode\PageAdmin;
 use Hcode\Model\User;
 use Hcode\Model\Category;
+use Hcode\Model\Product;
 
 require_once('vendor/autoload.php');
 
@@ -97,20 +97,60 @@ $app->post('/admin/categories/{idcategory}',
         exit;
     }
 );
-
-$app->get('/categories/{idcategory}',
+$app->get('/admin/categories/{idcategory}/products',
     function($request, $response, $args){
+        User::verifyLogin();
 
         $category = new Category();
 
         $category->get((int)$args['idcategory']);
 
-        $page = new Page();
+        $page = new PageAdmin();
 
-        $page->setTpl('category.html.twig',[
+        $page->setTpl('categories-products.html.twig', [
             'category' => $category->getValues(),
-            'products' => []
+            'productsRelated' => $category->getProducts(TRUE),
+            'productsNotRelated' => $category->getProducts(FALSE)
         ]);
+    }
+);
+$app->get('/admin/categories/{idcategory}/products/{idproduct}/add',
+    function($request, $response, $args){
+        User::verifyLogin();
+
+        $product = new Product;
+
+        $product->get((int)$args['idproduct']);
+
+        $category = new Category();
+
+        $category->get((int)$args['idcategory']);
+
+        $category->addProduct($product);
+
+        header('location: /admin/categories/'.$category->getidcategory().'/products');
+
+        exit;        
+    }
+);
+
+$app->get('/admin/categories/{idcategory}/products/{idproduct}/remove',
+    function($request, $response, $args){
+        User::verifyLogin();
+
+        $product = new Product;
+
+        $product->get((int)$args['idproduct']);
+
+        $category = new Category();
+
+        $category->get((int)$args['idcategory']);
+
+        $category->removeProduct($product);
+
+        header('location: /admin/categories/'.$category->getidcategory().'/products');
+
+        exit;        
     }
 );
 

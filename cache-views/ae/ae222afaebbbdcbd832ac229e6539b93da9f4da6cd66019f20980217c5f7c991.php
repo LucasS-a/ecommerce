@@ -70,47 +70,7 @@ class __TwigTemplate_2e5dde4ec69dc913094f0f04e3e663d7ecf73d4ef383bc8ec344e77224f
     {
         $macros = $this->macros;
         // line 11
-        echo "    <div class=\"site-branding-area\">
-        <div class=\"container\">
-            <div class=\"row\">
-                <div class=\"col-sm-6\">
-                    <div class=\"logo\">
-                        <h1><a href=\"#\"><img src=\"/res/site/img/logo.png\"></a></h1>
-                    </div>
-                </div>
-                
-                <div class=\"col-sm-6\">
-                    <div class=\"shopping-item\">
-                        <a href=\"carrinho.html\">Carrinho - <span class=\"cart-amunt\">R\$100</span> <i class=\"fa fa-shopping-cart\"></i> <span class=\"product-count\">5</span></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> <!-- End site branding area -->
-    
-    <div class=\"mainmenu-area\">
-        <div class=\"container\">
-            <div class=\"row\">
-                <div class=\"navbar-header\">
-                    <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\".navbar-collapse\">
-                        <span class=\"sr-only\">Toggle navigation</span>
-                        <span class=\"icon-bar\"></span>
-                        <span class=\"icon-bar\"></span>
-                        <span class=\"icon-bar\"></span>
-                    </button>
-                </div> 
-                <div class=\"navbar-collapse collapse\">
-                    <ul class=\"nav navbar-nav\">
-                        <li class=\"active\"><a href=\"#\">Home</a></li>
-                        <li><a href=\"#\">Produtos</a></li>
-                        <li><a href=\"#\">Carrinho</a></li>
-                    </ul>
-                </div>  
-            </div>
-        </div>
-    </div> <!-- End mainmenu area -->
-    
-    <div class=\"slider-area\">
+        echo "    <div class=\"slider-area\">
         \t<!-- Slider -->
 \t\t\t<div class=\"block-slider block-slider4\">
 \t\t\t\t<ul class=\"\" id=\"bxslider-home4\">
@@ -197,37 +157,37 @@ class __TwigTemplate_2e5dde4ec69dc913094f0f04e3e663d7ecf73d4ef383bc8ec344e77224f
                         <h2 class=\"section-title\">Produtos</h2>
                         <div class=\"product-carousel\">
                             ";
-        // line 137
+        // line 97
         $context['_parent'] = $context;
         $context['_seq'] = twig_ensure_traversable(($context["products"] ?? null));
         foreach ($context['_seq'] as $context["_key"] => $context["product"]) {
-            // line 138
+            // line 98
             echo "                                <div class=\"single-product\">
                                     <div class=\"product-f-image\">
                                         <img src=";
-            // line 140
-            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["product"], "desphoto", [], "any", false, false, false, 140), "html", null, true);
+            // line 100
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["product"], "desphoto", [], "any", false, false, false, 100), "html", null, true);
             echo " alt=\"\">
                                         <div class=\"product-hover\">
                                             <a href=\"#\" class=\"add-to-cart-link\"><i class=\"fa fa-shopping-cart\"></i>Comprar</a>
                                             <a href=\"/products/";
-            // line 143
-            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["product"], "desurl", [], "any", false, false, false, 143), "html", null, true);
+            // line 103
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["product"], "desurl", [], "any", false, false, false, 103), "html", null, true);
             echo "\" class=\"view-details-link\"><i class=\"fa fa-link\"></i>Detalhes</a>
                                         </div>
                                     </div>
                                     
                                     <h2><a href=\"/products/";
-            // line 147
-            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["product"], "desurl", [], "any", false, false, false, 147), "html", null, true);
+            // line 107
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["product"], "desurl", [], "any", false, false, false, 107), "html", null, true);
             echo "\">";
-            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["product"], "desproduct", [], "any", false, false, false, 147), "html", null, true);
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["product"], "desproduct", [], "any", false, false, false, 107), "html", null, true);
             echo "</a></h2>
                                     
                                     <div class=\"product-carousel-price\">
                                         <ins>R\$ ";
-            // line 150
-            echo twig_escape_filter($this->env, twig_number_format_filter($this->env, twig_get_attribute($this->env, $this->source, $context["product"], "vlprice", [], "any", false, false, false, 150), 2, ",", "."), "html", null, true);
+            // line 110
+            echo twig_escape_filter($this->env, twig_number_format_filter($this->env, twig_get_attribute($this->env, $this->source, $context["product"], "vlprice", [], "any", false, false, false, 110), 2, ",", "."), "html", null, true);
             echo "</ins>
                                     </div> 
                                 </div>
@@ -236,7 +196,7 @@ class __TwigTemplate_2e5dde4ec69dc913094f0f04e3e663d7ecf73d4ef383bc8ec344e77224f
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['product'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 154
+        // line 114
         echo "                        </div>
                     </div>
                 </div>
@@ -280,7 +240,7 @@ class __TwigTemplate_2e5dde4ec69dc913094f0f04e3e663d7ecf73d4ef383bc8ec344e77224f
 
     public function getDebugInfo()
     {
-        return array (  240 => 154,  230 => 150,  222 => 147,  215 => 143,  209 => 140,  205 => 138,  201 => 137,  73 => 11,  69 => 10,  63 => 7,  57 => 6,  52 => 4,  48 => 3,  37 => 1,);
+        return array (  200 => 114,  190 => 110,  182 => 107,  175 => 103,  169 => 100,  165 => 98,  161 => 97,  73 => 11,  69 => 10,  63 => 7,  57 => 6,  52 => 4,  48 => 3,  37 => 1,);
     }
 
     public function getSourceContext()
