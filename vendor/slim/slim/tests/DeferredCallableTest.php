@@ -2,17 +2,17 @@
 /**
  * Slim Framework (https://slimframework.com)
  *
- * @license https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
+ * @link      https://github.com/slimphp/Slim
+ * @copyright Copyright (c) 2011-2017 Josh Lockhart
+ * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
-
 namespace Slim\Tests;
 
-use PHPUnit_Framework_TestCase;
 use Slim\Container;
 use Slim\DeferredCallable;
 use Slim\Tests\Mocks\CallableTest;
 
-class DeferredCallableTest extends PHPUnit_Framework_TestCase
+class DeferredCallableTest extends \PHPUnit_Framework_TestCase
 {
     public function testItResolvesCallable()
     {
@@ -47,7 +47,7 @@ class DeferredCallableTest extends PHPUnit_Framework_TestCase
 
     public function testItReturnsInvokedCallableResponse()
     {
-        $container = new Container();
+        $container = new Container;
         $test = $this;
         $foo = 'foo';
         $bar = 'bar';
@@ -61,16 +61,5 @@ class DeferredCallableTest extends PHPUnit_Framework_TestCase
 
         $response = $deferred($foo);
         $this->assertEquals($bar, $response);
-    }
-
-    public function testGetCallable()
-    {
-        $container = new Container();
-
-        $closure = function () {
-        };
-
-        $deferred = new DeferredCallable($closure, $container);
-        $this->assertSame($closure, $deferred->getCallable());
     }
 }

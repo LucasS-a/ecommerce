@@ -2,13 +2,12 @@
 /**
  * Slim Framework (https://slimframework.com)
  *
- * @license https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
+ * @link      https://github.com/slimphp/Slim
+ * @copyright Copyright (c) 2011-2017 Josh Lockhart
+ * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
-
 namespace Slim\Tests;
 
-use Exception;
-use PHPUnit_Framework_TestCase;
 use Slim\Container;
 use Slim\DeferredCallable;
 use Slim\Http\Body;
@@ -22,7 +21,7 @@ use Slim\Tests\Mocks\CallableTest;
 use Slim\Tests\Mocks\InvocationStrategyTest;
 use Slim\Tests\Mocks\MiddlewareStub;
 
-class RouteTest extends PHPUnit_Framework_TestCase
+class RouteTest extends \PHPUnit_Framework_TestCase
 {
     public function routeFactory()
     {
@@ -256,6 +255,10 @@ class RouteTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(1, CallableTest::$CalledCount);
     }
 
+    /**
+     * Ensure that the response returned by a route callable is the response
+     * object that is returned by __invoke().
+     */
     public function testInvokeWhenReturningAResponse()
     {
         $callable = function ($req, $res, $args) {
@@ -277,6 +280,10 @@ class RouteTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('foo', (string)$response->getBody());
     }
 
+    /**
+     * Ensure that if a string is returned by a route callable, then it is
+     * added to the response object that is returned by __invoke().
+     */
     public function testInvokeWhenReturningAString()
     {
         $callable = function ($req, $res, $args) {
@@ -299,14 +306,15 @@ class RouteTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException \Exception
      */
     public function testInvokeWithException()
     {
         $callable = function ($req, $res, $args) {
-            throw new Exception();
+            throw new \Exception();
         };
         $route = new Route(['GET'], '/', $callable);
+
 
         $env = Environment::mock();
         $uri = Uri::createFromString('https://example.com:80');
@@ -320,6 +328,11 @@ class RouteTest extends PHPUnit_Framework_TestCase
         $response = $route->__invoke($request, $response);
     }
 
+
+    /**
+     * Ensure that if `outputBuffering` property is set to `false` correct response
+     * body is returned by __invoke().
+     */
     public function testInvokeWhenDisablingOutputBuffer()
     {
         ob_start();
@@ -347,6 +360,9 @@ class RouteTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('foo', $output);
     }
 
+    /**
+     * Ensure that `foundHandler` is called on actual callable
+     */
     public function testInvokeDeferredCallable()
     {
         $container = new Container();
@@ -368,6 +384,9 @@ class RouteTest extends PHPUnit_Framework_TestCase
         $this->assertEquals([$container['CallableTest'], 'toCall'], InvocationStrategyTest::$LastCalledFor);
     }
 
+    /**
+     * Ensure that the pattern can be dynamically changed
+     */
     public function testPatternCanBeChanged()
     {
         $route = $this->routeFactory();
@@ -375,6 +394,9 @@ class RouteTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('/hola/{nombre}', $route->getPattern());
     }
 
+    /**
+     * Ensure that the callable can be changed
+     */
     public function testChangingCallable()
     {
         $container = new Container();

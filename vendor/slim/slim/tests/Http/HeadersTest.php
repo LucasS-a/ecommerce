@@ -2,17 +2,17 @@
 /**
  * Slim Framework (https://slimframework.com)
  *
- * @license https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
+ * @link      https://github.com/slimphp/Slim
+ * @copyright Copyright (c) 2011-2017 Josh Lockhart
+ * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
-
 namespace Slim\Tests\Http;
 
-use PHPUnit_Framework_TestCase;
 use ReflectionProperty;
 use Slim\Http\Environment;
 use Slim\Http\Headers;
 
-class HeadersTest extends PHPUnit_Framework_TestCase
+class HeadersTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreateFromEnvironment()
     {
@@ -223,18 +223,5 @@ class HeadersTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals('electrolytes', $en->get('HTTP_AUTHORIZATION'));
         $this->assertEquals(['electrolytes'], $h->get('Authorization'));
-    }
-
-    public function testDetermineAuthorizationReturnsEarlyIfHeadersIsNotArray()
-    {
-        $e = Environment::mock([]);
-
-        $GLOBALS['getallheaders_return'] = false;
-        $en = Headers::determineAuthorization($e);
-        $h = Headers::createFromEnvironment($e);
-        unset($GLOBALS['getallheaders_return']);
-
-        $this->assertNull($en->get('HTTP_AUTHORIZATION'));
-        $this->assertNull($h->get('Authorization'));
     }
 }

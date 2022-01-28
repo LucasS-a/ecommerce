@@ -2,18 +2,16 @@
 /**
  * Slim Framework (https://slimframework.com)
  *
- * @license https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
+ * @link      https://github.com/slimphp/Slim
+ * @copyright Copyright (c) 2011-2017 Josh Lockhart
+ * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
-
 namespace Slim\Tests\Handlers;
 
-use PHPUnit_Framework_MockObject_MockObject;
-use PHPUnit_Framework_TestCase;
 use Slim\Handlers\NotAllowed;
-use Slim\Http\Request;
 use Slim\Http\Response;
 
-class NotAllowedTest extends PHPUnit_Framework_TestCase
+class NotAllowedTest extends \PHPUnit_Framework_TestCase
 {
     public function invalidMethodProvider()
     {
@@ -70,8 +68,7 @@ class NotAllowedTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param string $method
-     *
-     * @return PHPUnit_Framework_MockObject_MockObject|Request
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Slim\Http\Request
      */
     protected function getRequest($method, $contentType = 'text/html')
     {

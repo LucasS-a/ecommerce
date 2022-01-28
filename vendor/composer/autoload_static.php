@@ -29,6 +29,10 @@ class ComposerStaticInitcb457dbbb744e106e8b936452b969c3c
             'Psr\\Container\\' => 14,
             'PHPMailer\\PHPMailer\\' => 20,
         ),
+        'I' => 
+        array (
+            'Interop\\Container\\' => 18,
+        ),
         'H' => 
         array (
             'Hcode\\' => 6,
@@ -67,6 +71,10 @@ class ComposerStaticInitcb457dbbb744e106e8b936452b969c3c
         'PHPMailer\\PHPMailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
+        ),
+        'Interop\\Container\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/container-interop/container-interop/src/Interop/Container',
         ),
         'Hcode\\' => 
         array (

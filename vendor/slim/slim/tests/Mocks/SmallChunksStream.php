@@ -2,14 +2,18 @@
 /**
  * Slim Framework (https://slimframework.com)
  *
- * @license https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
+ * @link      https://github.com/slimphp/Slim
+ * @copyright Copyright (c) 2011-2017 Josh Lockhart
+ * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
 
 namespace Slim\Tests\Mocks;
 
-use Exception;
 use Psr\Http\Message\StreamInterface;
 
+/**
+ * A mock stream interface that yields small chunks when reading
+ */
 class SmallChunksStream implements StreamInterface
 {
     const CHUNK_SIZE = 10;
@@ -25,24 +29,18 @@ class SmallChunksStream implements StreamInterface
         $this->amountToRead = self::SIZE;
     }
 
-    /**
-     * @throws Exception
-     */
     public function __toString()
     {
-        throw new Exception('not implemented');
+        throw new \Exception('not implemented');
     }
 
     public function close()
     {
     }
 
-    /**
-     * @throws Exception
-     */
     public function detach()
     {
-        throw new Exception('not implemented');
+        throw new \Exception('not implemented');
     }
 
     public function eof()
@@ -50,22 +48,14 @@ class SmallChunksStream implements StreamInterface
         return $this->amountToRead === 0;
     }
 
-    /**
-     * @throws Exception
-     */
     public function getContents()
     {
-        throw new Exception('not implemented');
+        throw new \Exception('not implemented');
     }
 
-    /**
-     * @param string $key
-     *
-     * @throws Exception
-     */
     public function getMetadata($key = null)
     {
-        throw new Exception('not implemented');
+        throw new \Exception('not implemented');
     }
 
     public function getSize()
@@ -96,28 +86,19 @@ class SmallChunksStream implements StreamInterface
         return str_repeat('.', min($length, $size));
     }
 
-    /**
-     * @throws Exception
-     */
     public function rewind()
     {
-        throw new Exception('not implemented');
+        throw new \Exception('not implemented');
     }
 
-    /**
-     * @throws Exception
-     */
     public function seek($offset, $whence = SEEK_SET)
     {
-        throw new Exception('not implemented');
+        throw new \Exception('not implemented');
     }
 
-    /**
-     * @throws Exception
-     */
     public function tell()
     {
-        throw new Exception('not implemented');
+        throw new \Exception('not implemented');
     }
 
     public function write($string)

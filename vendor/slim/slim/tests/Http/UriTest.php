@@ -2,18 +2,21 @@
 /**
  * Slim Framework (https://slimframework.com)
  *
- * @license https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
+ * @link      https://github.com/slimphp/Slim
+ * @copyright Copyright (c) 2011-2017 Josh Lockhart
+ * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
-
 namespace Slim\Tests\Http;
 
 use InvalidArgumentException;
-use PHPUnit_Framework_TestCase;
 use Slim\Http\Environment;
 use Slim\Http\Uri;
 
-class UriTest extends PHPUnit_Framework_TestCase
+class UriTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var resource
+     */
     protected $uri;
 
     public function uriFactory()
@@ -29,6 +32,10 @@ class UriTest extends PHPUnit_Framework_TestCase
 
         return new Uri($scheme, $host, $port, $path, $query, $fragment, $user, $password);
     }
+
+    /********************************************************************************
+     * Scheme
+     *******************************************************************************/
 
     public function testGetScheme()
     {
@@ -73,6 +80,10 @@ class UriTest extends PHPUnit_Framework_TestCase
     {
         $this->uriFactory()->withScheme([]);
     }
+
+    /********************************************************************************
+     * Authority
+     *******************************************************************************/
 
     public function testGetAuthorityWithUsernameAndPassword()
     {
@@ -282,6 +293,10 @@ class UriTest extends PHPUnit_Framework_TestCase
         $this->uriFactory()->withPort('Foo');
     }
 
+    /********************************************************************************
+     * Path
+     *******************************************************************************/
+
     public function testGetBasePathNone()
     {
         $this->assertEquals('', $this->uriFactory()->getBasePath());
@@ -295,6 +310,7 @@ class UriTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers Slim\Http\Uri::withBasePath
      * @expectedException InvalidArgumentException
      * @expectedExceptionMessage Uri path must be a string
      */
@@ -358,6 +374,7 @@ class UriTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers Slim\Http\Uri::withPath
      * @expectedException InvalidArgumentException
      * @expectedExceptionMessage Uri path must be a string
      */
@@ -365,6 +382,10 @@ class UriTest extends PHPUnit_Framework_TestCase
     {
         $this->uriFactory()->withPath(['foo']);
     }
+
+    /********************************************************************************
+     * Query
+     *******************************************************************************/
 
     public function testGetQuery()
     {
@@ -400,6 +421,7 @@ class UriTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers Slim\Http\Uri::withQuery
      * @expectedException InvalidArgumentException
      * @expectedExceptionMessage Uri query must be a string
      */
@@ -407,6 +429,10 @@ class UriTest extends PHPUnit_Framework_TestCase
     {
         $this->uriFactory()->withQuery(['foo']);
     }
+
+    /********************************************************************************
+     * Fragment
+     *******************************************************************************/
 
     public function testGetFragment()
     {
@@ -435,6 +461,7 @@ class UriTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers Slim\Http\Uri::withFragment
      * @expectedException InvalidArgumentException
      * @expectedExceptionMessage Uri fragment must be a string
      */
@@ -442,6 +469,10 @@ class UriTest extends PHPUnit_Framework_TestCase
     {
         $this->uriFactory()->withFragment(['foo']);
     }
+
+    /********************************************************************************
+     * Helpers
+     *******************************************************************************/
 
     public function testToString()
     {
@@ -469,6 +500,9 @@ class UriTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('http://example.com/foo/', (string) $uri);
     }
 
+    /**
+     * @covers Slim\Http\Uri::createFromString
+     */
     public function testCreateFromString()
     {
         $uri = Uri::createFromString('https://example.com:8080/foo/bar?abc=123');
@@ -481,6 +515,7 @@ class UriTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers Slim\Http\Uri::createFromString
      * @expectedException InvalidArgumentException
      * @expectedExceptionMessage Uri must be a string
      */
@@ -603,6 +638,10 @@ class UriTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('', $uri->getFragment());
     }
 
+    /**
+     * @covers Slim\Http\Uri::createFromEnvironment
+     * @ticket 1375
+     */
     public function testCreateEnvironmentWithBasePath()
     {
         $environment = Environment::mock([
@@ -661,17 +700,27 @@ class UriTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('http://josh:sekrit@example.com:8080/foo', $uri->getBaseUrl());
     }
 
+    /**
+     * @covers Slim\Http\Uri::createFromEnvironment
+     * @ticket 1380
+     */
     public function testWithPathWhenBaseRootIsEmpty()
     {
-        $environment = Environment::mock([
+        $environment = \Slim\Http\Environment::mock([
             'SCRIPT_NAME' => '/index.php',
             'REQUEST_URI' => '/bar',
         ]);
-        $uri = Uri::createFromEnvironment($environment);
+        $uri = \Slim\Http\Uri::createFromEnvironment($environment);
 
         $this->assertEquals('http://localhost/test', (string) $uri->withPath('test'));
     }
 
+    /**
+     * When the URL is /foo/index.php/bar/baz, we need the baseURL to be
+     * /foo/index.php so that routing works correctly.
+     *
+     * @ticket 1639 as a fix to 1590 broke this.
+     */
     public function testRequestURIContainsIndexDotPhp()
     {
         $uri = Uri::createFromEnvironment(
@@ -707,17 +756,5 @@ class UriTest extends PHPUnit_Framework_TestCase
     {
         $expected = 'https://0:0@0:1/0?0#0';
         $this->assertSame('https://0:0@0:1', (string) Uri::createFromString($expected)->getBaseUrl());
-    }
-
-    public function testConstructorWithEmptyPath()
-    {
-        $uri = new Uri('https', 'example.com', null, '');
-        $this->assertSame('/', $uri->getPath());
-    }
-
-    public function testConstructorWithZeroAsPath()
-    {
-        $uri = new Uri('https', 'example.com', null, '0');
-        $this->assertSame('0', (string) $uri->getPath());
     }
 }

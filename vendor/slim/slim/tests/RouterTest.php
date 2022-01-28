@@ -2,28 +2,21 @@
 /**
  * Slim Framework (https://slimframework.com)
  *
- * @license https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
+ * @link      https://github.com/slimphp/Slim
+ * @copyright Copyright (c) 2011-2017 Josh Lockhart
+ * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
 
 namespace Slim\Tests;
 
-use InvalidArgumentException;
-use PHPUnit_Framework_TestCase;
-use ReflectionClass;
-use RuntimeException;
-use Slim\Http\Uri;
 use Slim\Router;
 
-class RouterTest extends PHPUnit_Framework_TestCase
+class RouterTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var Router
-     */
+    /** @var Router */
     protected $router;
 
-    /**
-     * @var string|null
-     */
+    /** @var string */
     protected $cacheFile;
 
     public function setUp()
@@ -68,7 +61,7 @@ class RouterTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Route pattern must be a string
      */
     public function testMapWithInvalidPatternType()
@@ -81,6 +74,10 @@ class RouterTest extends PHPUnit_Framework_TestCase
         $this->router->map($methods, $pattern, $callable);
     }
 
+    /**
+     * Base path is ignored by relativePathFor()
+     *
+     */
     public function testRelativePathFor()
     {
         $this->router->setBasePath('/base/path');
@@ -180,24 +177,8 @@ class RouterTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testPathForWithNullQueryParameters()
-    {
-        $methods = ['GET'];
-        $pattern = '/hello/{name}';
-        $callable = function ($request, $response, $args) {
-            echo sprintf('Hello %s', $args['name']);
-        };
-        $route = $this->router->map($methods, $pattern, $callable);
-        $route->setName('foo');
-
-        $this->assertEquals(
-            '/hello/josh',
-            $this->router->pathFor('foo', ['name' => 'josh'], ['a' => null])
-        );
-    }
-
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testPathForWithMissingSegmentData()
     {
@@ -213,7 +194,7 @@ class RouterTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException RuntimeException
+     * @expectedException \RuntimeException
      */
     public function testPathForRouteNotExists()
     {
@@ -229,7 +210,7 @@ class RouterTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testSettingInvalidBasePath()
     {
@@ -238,7 +219,7 @@ class RouterTest extends PHPUnit_Framework_TestCase
 
     public function testCreateDispatcher()
     {
-        $class = new ReflectionClass($this->router);
+        $class = new \ReflectionClass($this->router);
         $method = $class->getMethod('createDispatcher');
         $method->setAccessible(true);
         $this->assertInstanceOf('\FastRoute\Dispatcher', $method->invoke($this->router));
@@ -250,14 +231,14 @@ class RouterTest extends PHPUnit_Framework_TestCase
             $r->addRoute('GET', '/', function () {
             });
         }));
-        $class = new ReflectionClass($this->router);
+        $class = new \ReflectionClass($this->router);
         $prop = $class->getProperty('dispatcher');
         $prop->setAccessible(true);
         $this->assertInstanceOf('\FastRoute\Dispatcher', $prop->getValue($this->router));
     }
 
     /**
-     * @expectedException RuntimeException
+     * @expectedException \RuntimeException
      */
     public function testRemoveRoute()
     {
@@ -313,7 +294,7 @@ class RouterTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException RuntimeException
+     * @expectedException \RuntimeException
      */
     public function testRouteRemovalNotExists()
     {
@@ -341,17 +322,23 @@ class RouterTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Test cacheFile may be set to false
+     */
     public function testSettingCacheFileToFalse()
     {
         $this->router->setCacheFile(false);
 
-        $class = new ReflectionClass($this->router);
+        $class = new \ReflectionClass($this->router);
         $property = $class->getProperty('cacheFile');
         $property->setAccessible(true);
 
         $this->assertFalse($property->getValue($this->router));
     }
 
+    /**
+     * Test cacheFile should be a string or false
+     */
     public function testSettingInvalidCacheFileValue()
     {
         $this->setExpectedException(
@@ -361,6 +348,9 @@ class RouterTest extends PHPUnit_Framework_TestCase
         $this->router->setCacheFile(['invalid']);
     }
 
+    /**
+     * Test cache file exists but is not writable
+     */
     public function testCacheFileExistsAndIsNotReadable()
     {
         $this->cacheFile = __DIR__ . '/non-readable.cache';
@@ -374,6 +364,9 @@ class RouterTest extends PHPUnit_Framework_TestCase
         $this->router->setCacheFile($this->cacheFile);
     }
 
+    /**
+     * Test cache file does not exist and directory is not writable
+     */
     public function testCacheFileDoesNotExistsAndDirectoryIsNotWritable()
     {
         $cacheFile = __DIR__ . '/non-writable-directory/router.cache';
@@ -386,6 +379,9 @@ class RouterTest extends PHPUnit_Framework_TestCase
         $this->router->setCacheFile($cacheFile);
     }
 
+    /**
+     * Test cached routes file is created & that it holds our routes.
+     */
     public function testRouteCacheFileCanBeDispatched()
     {
         $methods = ['GET'];
@@ -397,7 +393,7 @@ class RouterTest extends PHPUnit_Framework_TestCase
 
         $cacheFile = dirname(__FILE__) . '/' . uniqid(microtime(true));
         $this->router->setCacheFile($cacheFile);
-        $class = new ReflectionClass($this->router);
+        $class = new \ReflectionClass($this->router);
         $method = $class->getMethod('createDispatcher');
         $method->setAccessible(true);
 
@@ -410,7 +406,7 @@ class RouterTest extends PHPUnit_Framework_TestCase
         $router2 = new Router();
         $router2->setCacheFile($cacheFile);
 
-        $class = new ReflectionClass($router2);
+        $class = new \ReflectionClass($router2);
         $method = $class->getMethod('createDispatcher');
         $method->setAccessible(true);
 
@@ -427,7 +423,7 @@ class RouterTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateDispatcherReturnsSameDispatcherASecondTime()
     {
-        $class = new ReflectionClass($this->router);
+        $class = new \ReflectionClass($this->router);
         $method = $class->getMethod('createDispatcher');
         $method->setAccessible(true);
 
@@ -437,28 +433,39 @@ class RouterTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException RuntimeException
+     * Test that the router urlFor will proxy into a pathFor method, and trigger
+     * the user deprecated warning
+     */
+    public function testUrlForAliasesPathFor()
+    {
+        //create a temporary error handler, store the error str in this value
+        $errorString = null;
+
+        set_error_handler(function ($no, $str) use (&$errorString) {
+            $errorString = $str;
+        }, E_USER_DEPRECATED);
+
+        //create the parameters we expect
+        $name = 'foo';
+        $data = ['name' => 'josh'];
+        $queryParams = ['a' => 'b', 'c' => 'd'];
+
+        //create a router that mocks the pathFor with expected args
+        $router = $this->getMockBuilder('\Slim\Router')->setMethods(['pathFor'])->getMock();
+        $router->expects($this->once())->method('pathFor')->with($name, $data, $queryParams);
+        $router->urlFor($name, $data, $queryParams);
+
+        //check that our error was triggered
+        $this->assertEquals($errorString, 'urlFor() is deprecated. Use pathFor() instead.');
+
+        restore_error_handler();
+    }
+
+    /**
+     * @expectedException \RuntimeException
      */
     public function testLookupRouteThrowsExceptionIfRouteNotFound()
     {
         $this->router->lookupRoute("thisIsMissing");
-    }
-
-    public function testFullUrlFor()
-    {
-        $methods = ['GET'];
-        $pattern = '/token/{token}';
-
-        $router = new Router(); // new Router to prevent side effects from Router::setBasePath()
-        $router
-            ->map($methods, $pattern, null)
-            ->setName('testRoute');
-        $router->setBasePath('/app'); // test URL with sub directory
-
-        $uri = Uri::createFromString('http://example.com:8000/only/authority/important?a=b#c');
-        $result = $router->fullUrlFor($uri, 'testRoute', ['token' => 'randomToken']);
-        $expected = 'http://example.com:8000/app/token/randomToken';
-
-        $this->assertEquals($expected, $result);
     }
 }

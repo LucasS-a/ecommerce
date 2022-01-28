@@ -2,8 +2,8 @@
 /**
  * This is a direct copy of zend-diactoros/test/TestAsset/Functions.php and is used to override
  * header() and headers_sent() so we can test that they do the right thing.
+ *
  */
-
 namespace Slim\Tests\Assets;
 
 /**
@@ -26,6 +26,9 @@ namespace Slim\Tests\Assets;
  * @license   https://github.com/zendframework/zend-diactoros/blob/master/LICENSE.md New BSD License
  */
 
+/**
+ * Store output artifacts
+ */
 class HeaderStack
 {
     /**
@@ -77,19 +80,5 @@ class HeaderStack
         }
 
         return false;
-    }
-
-    /**
-     * Remove occurrences of $header
-     *
-     * @param string $header
-     */
-    public static function remove($header)
-    {
-        foreach (self::$data as $key => $item) {
-            if (false !== strpos($item['header'], "$header:")) {
-                unset(self::$data[$key]);
-            }
-        }
     }
 }
