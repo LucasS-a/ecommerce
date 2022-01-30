@@ -22,15 +22,30 @@ $app->get('/',
 $app->get('/categories/{idcategory}',
     function($request, $response, $args){
 
+        $page = (isset($_GET['page'])) ? (int)$_GET['page'] : 1;
+
         $category = new Category();
 
         $category->get((int)$args['idcategory']);
+
+        $pagination = $category->getProductsSite($page);
+
+        $pages = array();
+
+        for( $i=1; $i<=$pagination['pages']; $i++)
+        {
+            array_push($pages, [
+                'link' => '/categories/' . $category->getidcategory() .'?page=' . $i,
+                'number' => $i
+            ]);
+        }
 
         $page = new Page();
 
         $page->setTpl('category.html.twig',[
             'category' => $category->getValues(),
-            'products' => Product::checkList($category->getProducts(TRUE))
+            'products' => $pagination['data'],
+            'pages'    => $pages
         ]);
     }
 );
