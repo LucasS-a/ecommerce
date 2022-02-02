@@ -68,7 +68,7 @@ class __TwigTemplate_107e0380d00c94dcb26efaf7eed79f11fa5a86371ae274464e5d778ac1e
                         <ul>
                             <li><a href=\"#\"><i class=\"fa fa-user\"></i> Minha Conta</a></li>
                             <li><a href=\"#\"><i class=\"fa fa-heart\"></i> Lista de Desejos</a></li>
-                            <li><a href=\"#\"><i class=\"fa fa-shopping-cart\"></i> Meu Carrinho</a></li>
+                            <li><a href=\"/cart\"><i class=\"fa fa-shopping-cart\"></i> Meu Carrinho</a></li>
                             <li><a href=\"#\"><i class=\"fa fa-lock\"></i> Login</a></li>
                         </ul>
                     </div>
@@ -130,9 +130,9 @@ class __TwigTemplate_107e0380d00c94dcb26efaf7eed79f11fa5a86371ae274464e5d778ac1e
                 </div> 
                 <div class=\"navbar-collapse collapse\">
                     <ul class=\"nav navbar-nav\">
-                        <li class=\"active\"><a href=\"#\">Home</a></li>
+                        <li class=\"active\"><a href=\"/\">Home</a></li>
                         <li><a href=\"#\">Produtos</a></li>
-                        <li><a href=\"#\">Carrinho</a></li>
+                        <li><a href=\"/cart\">Carrinho</a></li>
                     </ul>
                 </div>  
             </div>

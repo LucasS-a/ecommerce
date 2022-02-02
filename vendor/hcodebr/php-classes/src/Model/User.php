@@ -54,6 +54,46 @@ class User extends Model{
             throw new \Exception("Usuário inexistente ou senha inválida.");
         }
     }
+
+    public static function getFromSession()
+    {
+       $user = new User();
+       
+       if(isset($_SESSION[User::SESSION]) && $_SESSION[User::SESSION]['iduser'] > 0)
+       {
+           $user->setValues($_SESSION[User::SESSION]);
+       }
+
+       return $user;
+    }
+
+    public static function checkLogin($inadmin = TRUE)
+    {
+        if(
+            !isset($_SESSION[User::SESSION])
+            ||
+            !$_SESSION[User::SESSION]
+            ||
+            !(int)$_SESSION[User::SESSION]['iduser'] > 0
+        ){
+            // Não está logado
+            return FALSE;
+        }else{
+            if ($inadmin && (bool)$_SESSION[User::SESSION]['inadmin'])
+            {
+                // Está logando em rota de administrador tendo acesso.
+                return TRUE;
+            } else if ($inadmin === FALSE )
+            {
+                // Está loganado em uma rota que não é de administrador.
+                return TRUE;
+            }else{
+                // Está logando uma rota de administrador sem ter acesso.
+                return FALSE;
+            }
+        }
+    }
+
     /**
      * verifyLogin:
      * Método que veirifica se exite uma sessão, se o usuário está logado e se ele tem 
@@ -63,17 +103,9 @@ class User extends Model{
      *  @param void.
      *  @return void.  
      */
-    public static function verifyLogin()
+    public static function verifyLogin($inadmin = TRUE)
     {
-        if (
-            !isset($_SESSION[User::SESSION])
-            ||
-            !$_SESSION[User::SESSION]
-            ||
-            !(int)$_SESSION[User::SESSION]['iduser'] > 0
-            ||
-            !(bool)$_SESSION[User::SESSION]['inadmin']
-        ){
+        if (!User::checkLogin($inadmin)){
             header("Location: /admin/login");
             exit;
         }

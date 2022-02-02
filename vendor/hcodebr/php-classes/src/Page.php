@@ -40,12 +40,12 @@ class Page
             'auto_reload' => true
         );
 
-        $loader = new FilesystemLoader([
+        $this->loader = new FilesystemLoader([
             $_SERVER['DOCUMENT_ROOT'] . $tpl_dir,
             $_SERVER['DOCUMENT_ROOT'] . $tpl_dir . '/layouts'
         ]);
 
-        $this->twig = new Environment($loader, $config);
+        $this->twig = new Environment($this->loader, $config);
 
         $template = $this->twig->load('header.html.twig');
         
@@ -68,14 +68,13 @@ class Page
 
         $folder = substr($name, 0, $aux);
 
-        if(($folder !== 'index') && ($folder !== 'login') && ( $this->defaults['data']['is_admin'] ))
+        if(($folder !== 'index') && ($folder !== 'login'))
         {
-            $loader = new FilesystemLoader([
-                $_SERVER['DOCUMENT_ROOT'] . $this->defaults['data']['tpl_dir'],
-                $_SERVER['DOCUMENT_ROOT'] . $this->defaults['data']['tpl_dir'] . '/layouts',
-                $_SERVER['DOCUMENT_ROOT']. $this->defaults['data']['tpl_dir'] .'/' . $folder]);
+            $tpl_dir = isset($this->defaults['data']['tpl_dir']) ? $this->defaults['data']['tpl_dir'] : '/views/site';
+            
+            $this->loader->addPath($_SERVER['DOCUMENT_ROOT']. $tpl_dir .'/' . $folder);
 
-            $twig = new Environment($loader);
+            $twig = new Environment($this->loader);
             
             $template = $twig->load($name);
 

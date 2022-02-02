@@ -67,7 +67,6 @@ class Product extends Model{
     }
 
     private function checkPhoto(){
-    
         if(file_exists($_SERVER['DOCUMENT_ROOT'] . '/res/site/img/products/'.$this->getidproduct() . '.webp'))
         {
             $url = '/res/site/img/products/'.$this->getidproduct() . '.webp';
@@ -75,17 +74,15 @@ class Product extends Model{
             $url = '/res/site/img/product.jpg';
         }
 
-        return $this->setdesphoto($url);
+        $this->setdesphoto($url);
     
     }
 
     public function getValues()
     {
         $this->checkPhoto();
-
-        $value = parent::getValues();
-
-        return $value;
+        
+        return parent::getValues();
     }
 
     public function setPhoto($file)
@@ -119,6 +116,35 @@ class Product extends Model{
 
         $this->checkPhoto();
         
+    }
+
+    public function getFromUrl($url)
+    {
+        $sql = new Sql();
+
+        $result = $sql->select('SELECT * FROM tb_products WHERE desurl = :desurl', [
+            'desurl' => $url
+        ]);
+
+        $this->setValues($result[0]);
+    }
+
+    public function getCategories()
+    {
+        $sql = new Sql;
+
+        $results = $sql->select('
+            SELECT * FROM tb_categories WHERE idcategory IN(
+                SELECT a.idcategory
+                FROM tb_categories a 
+                INNER JOIN tb_productscategories b ON a.idcategory = b.idcategory
+                WHERE b.idproduct = :idproduct
+            )', [
+                'idproduct' => $this->getidproduct()
+            ]
+        );
+
+        return $results;
     }
 
 }
