@@ -72,12 +72,64 @@ $app->get('/products/{desurl}',
 $app->get('/cart',
     function()
     {
-        Cart::getFromSession();
+        $cart = Cart::getFromSession();
 
         $page = new Page();
 
-        $page->setTpl('cart.html');
+        $page->setTpl('cart.html.twig', [
+            'cart' => $cart->getValues(),
+            'products' => $cart->getProducts()
+        ]);
     }
 );
 
+$app->get('/cart/{idproduct}/add',
+    function($req, $res, $args)
+    {
+        $product = new Product();
+
+        $product->get((int)$args['idproduct']);
+
+        $cart = Cart::getFromSession();
+
+        $qtd = isset($_GET['qtd']) ? $_GET['qtd'] : 1;
+
+        for($i = 0; $i < $qtd; $i++)
+        {
+            $cart->addProduct($product);
+        }       
+
+        header('location: /cart');
+    }
+);
+
+$app->get('/cart/{idproduct}/minus',
+    function($req, $res, $args)
+    {
+        $product = new Product();
+
+        $product->get((int)$args['idproduct']);
+
+        $cart = Cart::getFromSession();
+
+        $cart->removeProduct($product);
+
+        header('location: /cart');
+    }
+);
+
+$app->get('/cart/{idproduct}/remove',
+    function($req, $res, $args)
+    {
+        $product = new Product();
+
+        $product->get((int)$args['idproduct']);
+
+        $cart = Cart::getFromSession();
+
+        $cart->removeProduct($product, TRUE);
+
+        header('location: /cart');
+    }
+);
 ?>

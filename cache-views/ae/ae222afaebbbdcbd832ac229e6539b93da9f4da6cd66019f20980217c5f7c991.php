@@ -169,7 +169,10 @@ class __TwigTemplate_2e5dde4ec69dc913094f0f04e3e663d7ecf73d4ef383bc8ec344e77224f
             echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["product"], "desphoto", [], "any", false, false, false, 100), "html", null, true);
             echo " alt=\"\">
                                         <div class=\"product-hover\">
-                                            <a href=\"#\" class=\"add-to-cart-link\"><i class=\"fa fa-shopping-cart\"></i>Comprar</a>
+                                            <a href=\"/cart/";
+            // line 102
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["product"], "idproduct", [], "any", false, false, false, 102), "html", null, true);
+            echo "/add\" class=\"add-to-cart-link\"><i class=\"fa fa-shopping-cart\"></i>Comprar</a>
                                             <a href=\"/products/";
             // line 103
             echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["product"], "desurl", [], "any", false, false, false, 103), "html", null, true);
@@ -240,7 +243,7 @@ class __TwigTemplate_2e5dde4ec69dc913094f0f04e3e663d7ecf73d4ef383bc8ec344e77224f
 
     public function getDebugInfo()
     {
-        return array (  200 => 114,  190 => 110,  182 => 107,  175 => 103,  169 => 100,  165 => 98,  161 => 97,  73 => 11,  69 => 10,  63 => 7,  57 => 6,  52 => 4,  48 => 3,  37 => 1,);
+        return array (  203 => 114,  193 => 110,  185 => 107,  178 => 103,  174 => 102,  169 => 100,  165 => 98,  161 => 97,  73 => 11,  69 => 10,  63 => 7,  57 => 6,  52 => 4,  48 => 3,  37 => 1,);
     }
 
     public function getSourceContext()
