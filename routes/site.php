@@ -3,6 +3,7 @@
 use Hcode\Model\Category;
 use Hcode\Model\Cart;
 use Hcode\Model\Product;
+use Hcode\Model\User;
 use Hcode\Page;
 
 $app->get('/', 
@@ -78,7 +79,8 @@ $app->get('/cart',
 
         $page->setTpl('cart.html.twig', [
             'cart' => $cart->getValues(),
-            'products' => $cart->getProducts()
+            'products' => $cart->getProducts(),
+            'error' => Cart::getMsgError()
         ]);
     }
 );
@@ -128,6 +130,17 @@ $app->get('/cart/{idproduct}/remove',
         $cart = Cart::getFromSession();
 
         $cart->removeProduct($product, TRUE);
+
+        header('location: /cart');
+    }
+);
+
+$app->post('/cart/freight', 
+    function()
+    {
+        $cart = Cart::getFromSession();
+
+        $cart->setFreight($_POST['zipcode']);
 
         header('location: /cart');
     }
