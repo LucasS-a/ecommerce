@@ -6,7 +6,7 @@ use Hcode\DB\Sql;
 use Hcode\Mailer;
 use Hcode\Model;
 /**
- * User: 
+ * <b>User: <b> 
  * Essa classe é responsável por todas as interações do objeto User com o resto da aplicação,
  * ela verifica se está logado, busca os usuários, adiciona e deleta no banco.
  * 
@@ -55,6 +55,13 @@ class User extends Model{
         }
     }
 
+        
+    /**
+     * getFromSession
+     * Verifica se tem uma sessão de usuário no sistema, se tiver retorna o usuário.
+     *
+     * @return User
+     */
     public static function getFromSession()
     {
        $user = new User();
@@ -66,7 +73,15 @@ class User extends Model{
 
        return $user;
     }
-
+    
+    /**
+     * checkLogin
+     * Método responsável para verificar se o usuário tem autorização
+     * para acessar a página.
+     * 
+     * @param  bool $inadmin
+     * @return void
+     */
     public static function checkLogin($inadmin = TRUE)
     {
         if(
@@ -100,7 +115,7 @@ class User extends Model{
      * acesso administrativo. Se não satisfazer os requisitos redireciona o usário para
      * a página de login.
      * 
-     *  @param void.
+     *  @param bool inadmin.
      *  @return void.  
      */
     public static function verifyLogin($inadmin = TRUE)
@@ -120,6 +135,7 @@ class User extends Model{
     public static function logout()
     {
         $_SESSION[User::SESSION] = NULL;
+        $_SESSION[Cart::SESSION] = NULL;
     }
 
         

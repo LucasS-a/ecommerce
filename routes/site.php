@@ -75,6 +75,13 @@ $app->get('/cart',
     {
         $cart = Cart::getFromSession();
 
+        $products  = $cart->getProducts();
+
+        if (!count($products) > 0)
+        {
+            $_SESSION[Cart::SESSION] = NULL;
+        }
+
         $page = new Page();
 
         $page->setTpl('cart.html.twig', [

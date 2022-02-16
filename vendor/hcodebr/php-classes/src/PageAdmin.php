@@ -4,8 +4,9 @@ namespace Hcode;
 
 /**
  * PageAdmin
+ * Essa classe rederiza os templates das páginas do usuários administrativo.
  * 
- * Essa classe rederiza os templates das páginas do usuários sem acesso administrativo. 
+ * @coppyright (c) 2021, Lucas S. de Araujo. 
  */
 class PageAdmin extends Page{
 

@@ -8,7 +8,9 @@ use Twig\Loader\FilesystemLoader;
 /**
  * Page
  * 
- * Essa classe rederiza os templates das páginas. 
+ * Essa classe rederiza os templates das páginas.
+ * 
+ * @copyright (c) 2022, Lucas S. de Araujo. 
  */
 class Page
 {

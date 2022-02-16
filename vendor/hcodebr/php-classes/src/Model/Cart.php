@@ -5,11 +5,26 @@ namespace Hcode\Model;
 use Hcode\DB\Sql;
 use Hcode\Model;
 
+/**
+ * Cart
+ * A classe Cart é o carrinho de compraas responsável por interligar o User aos
+ * Products desejados por ele.
+ * 
+ * @copyright (c) 2021, Lucas S. de Araujo
+ */
 class Cart extends Model
 {
     const SESSION = "Cart";
     const SESSION_ERROR = "CartError";
-    
+        
+    /**
+     * getFromSession
+     * Verifica se tem já existe uma sessâo, se ela existir retorna Cart vinculado a ela,
+     * se não estiver uma sessão ativa, ele busca no banco se tem uma sessão vinculado a esse 
+     * usuário.
+     *
+     * @return Cart
+     */
     public static function getFromSession()
     {
         $cart = new Cart();
@@ -20,17 +35,10 @@ class Cart extends Model
 
         }else{
             
-            if (isset($_SESSION[User::SESSION]))
-            {
-                $cart->getFromSessionUser();
+            $cart->getFromSessionId();
             
-            } else {
 
-                $cart->getFromSessionUser();
-
-            }
-
-            if (!(int)$cart->getidcart > 0)
+            if (!(int)$cart->getidcart() > 0)
             {
                 $data = [
                     'dessessionid' => session_id()
@@ -53,12 +61,25 @@ class Cart extends Model
 
         return $cart;
     }
-
+    
+    /**
+     * setToSession
+     * Inicializa uma sessão
+     *
+     * @return void
+     */
     public function setToSession()
     {
         $_SESSION[Cart::SESSION] = $this->getValues();
     }
 
+        
+    /**
+     * getFromSessionUser
+     * Busca no banco se existir um carrinho em aberto desse usuário.
+     *
+     * @return void
+     */
     public function getFromSessionUser()
     {
         $sql = new Sql();
@@ -73,7 +94,13 @@ class Cart extends Model
         }
 
     }
-
+    
+    /**
+     * getFromSessionId
+     * Busca no banco um carrinho se existir vinculado a essa sessão.
+     *
+     * @return void
+     */
     public function getFromSessionId()
     {
         $sql = new Sql();
@@ -88,7 +115,14 @@ class Cart extends Model
         }
 
     }
-
+    
+    /**
+     * get
+     * Busca no banco um Cart dono id fornecido
+     * 
+     * @param  int $idcart
+     * @return void
+     */
     public function get(int $idcart)
     {
         $sql = new Sql();
@@ -102,7 +136,13 @@ class Cart extends Model
             $this->setValues($result[0]);
         }
 
-    }
+    }    
+    /**
+     * save
+     * Método que salva no banco.
+     *
+     * @return void
+     */
     public function save()
     {
         $sql = new Sql();
@@ -119,6 +159,14 @@ class Cart extends Model
         $this->setValues($result[0]);
     }
 
+        
+    /**
+     * addProduct
+     * Adiciona produtos ao carrinho, e salva no banco.
+     *
+     * @param  Product $product
+     * @return void
+     */
     public function addProduct(Product $product)
     {
         $sql = new Sql();
@@ -130,7 +178,16 @@ class Cart extends Model
 
         $this->getCalculateTotal();
     }
-
+    
+    /**
+     * removeProduct
+     * Remove produtos do carrinho, mas não exclui o registro no banco,
+     * para termos noção de que o cliente teve interesse no produto.
+     *
+     * @param  Product $product
+     * @param  bool $all
+     * @return void
+     */
     public function removeProduct(Product $product, $all = FALSE)
     {
         $sql = new Sql();
@@ -150,7 +207,13 @@ class Cart extends Model
 
         $this->getCalculateTotal();
     }
-
+    
+    /**
+     * getProducts
+     * Busca no banco todos os produtos vinculado a esse carrinho.
+     *
+     * @return array 
+     */
     public function getProducts()
     {
         $sql = new Sql();
@@ -169,14 +232,22 @@ class Cart extends Model
 
         return Product::checkList($result);
     }
-
+    
+    /**
+     * getProductsTotal
+     * Vai no banco e retorna uma array com os valores da soma dos preços, dimensões
+     * e quantidade de produtos dentro do carrinho.
+     *
+     * @return void
+     */
     public function getProductsTotal()
     {
         $sql = new Sql();
 
         $results = $sql->select('SELECT SUM(vlprice) AS vlprice, SUM(vlwidth) AS vlwidth,
                          SUM(vlheight) AS vlheight, SUM(vllength) AS vllength, 
-                         SUM(vlweight) AS vlweight, COUNT(*) AS nrqtd FROM tb_products a 
+                         SUM(vlweight) AS vlweight, COUNT(*) AS nrqtd
+                    FROM tb_products a 
                     INNER JOIN tb_cartsproducts b 
                     ON a.idproduct = b.idproduct 
                     WHERE b.idcart = :idcart AND b.dtremoved IS NULL
@@ -191,7 +262,14 @@ class Cart extends Model
             return [];
         }
     }
-
+    
+    /**
+     * setFreight
+     * Recebe um CEP e cálcula o frete com base no endereço e tamnho do pacote.
+     *
+     * @param  string $nrzipcode
+     * @return void
+     */
     public function setFreight($nrzipcode)
     {
         $nrzipcode = str_replace('-', '', $nrzipcode);
@@ -241,18 +319,38 @@ class Cart extends Model
 
         }
     }
-
+    
+    /**
+     * formatValueToDecimal
+     * Troca a '.' pela a virgula pela ',' para separar as casas decimais
+     *
+     * @param  float $value
+     * @return float
+     */
     public static function formatValueToDecimal($value)
     {
         $value = str_replace('.','',$value);
         return (float)str_replace(',','.',$value);
     }
-
+        
+    /**
+     * setMsgError
+     * Seta uma mensagem de erro.
+     *
+     * @param  mixed $msgError
+     * @return void
+     */
     public static function setMsgError($msgError)
     {
         $_SESSION[Cart::SESSION_ERROR] = $msgError;
     }
-
+    
+    /**
+     * getMsgError
+     * Verifica se teve algum erro vinculado a essa sessão e o retorna.
+     *
+     * @return string
+     */
     public static function getMsgError()
     {
         $msg = isset($_SESSION[Cart::SESSION_ERROR]) ? $_SESSION[Cart::SESSION_ERROR] : '';
@@ -261,12 +359,24 @@ class Cart extends Model
 
         return $msg;
     }
-
+    
+    /**
+     * clearMsgError
+     * Exclui a mensagem de erro vinculado a essa sessão
+     *
+     * @return void
+     */
     public static function clearMsgError()
     {
         $_SESSION[Cart::SESSION_ERROR] = NULL;
     }
-
+    
+    /**
+     * updateFreight
+     * Aualiza o valor do frete.
+     *
+     * @return void
+     */
     public function updateFreight()
     {
         if ($this->getdeszipcode() != '')
@@ -274,14 +384,26 @@ class Cart extends Model
             $this->setFreight($this->getdeszipcode());
         }
     }
-
+    
+    /**
+     * getValues
+     * Retorna os valores do carrinho.
+     *
+     * @return array
+     */
     public function getValues()
     {
         $this->getCalculateTotal();
 
         return parent::getValues();
     }
-
+        
+    /**
+     * getCalculateTotal
+     * Cria um parametro subtotal,  e atualiza o vlprice somando o valor do frete.
+     *
+     * @return void
+     */
     public function getCalculateTotal()
     {
         $this->updateFreight();

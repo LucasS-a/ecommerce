@@ -5,8 +5,21 @@ namespace Hcode\Model;
 use Hcode\DB\Sql;
 use Hcode\Model;
 
+/**
+ * <b>Product: <b>
+ * Essa classe é responsável por todas as interações do objeto Product com o resto da aplicação,
+ * ela busca os produtos, adiciona e deleta no banco.
+ * 
+ * @copyright (c) 2021, Lucas S. de Araujo 
+ */
 class Product extends Model{
-    
+        
+    /**
+     * listAll
+     *  Busca todos os Product cadastrados no banco. 
+     * 
+     * @return array
+     */
     public static function listAll()
     {
         $sql = new Sql();
@@ -14,6 +27,14 @@ class Product extends Model{
         return $sql->select('SELECT * FROM tb_products ORDER BY desproduct');
     }
 
+        
+    /**
+     * checkList
+     *  Recebe uma lista com dados, e transforma em uma lista de objetos do tipo Product. 
+     * 
+     * @param  array $list
+     * @return array Product
+     */
     public function checkList(array $list)
     {
         foreach( $list as &$row )
@@ -27,7 +48,13 @@ class Product extends Model{
         
         return $list;
     }
-
+    
+    /**
+     * save
+     *  Salva os dados do objeto no banco.
+     * 
+     * @return void
+     */
     public function save()
     {
         $sql = new Sql();
@@ -46,6 +73,15 @@ class Product extends Model{
         $this->setValues($results[0]);
 
     }
+
+        
+    /**
+     * get
+     *  Busca no banco um objeto.
+     *
+     * @param  int $idproduct
+     * @return void
+     */
     public function get($idproduct)
     {
         $sql = new Sql();
@@ -56,7 +92,13 @@ class Product extends Model{
 
         $this->setValues($results[0]);
     }
-
+        
+    /**
+     * delete
+     *  Deleta no banco um objeto.
+     *
+     * @return void
+     */
     public function delete()
     {
         $sql = new Sql();
@@ -65,7 +107,14 @@ class Product extends Model{
             'idproduct' => $this->getidproduct()
         ]);
     }
-
+    
+    /**
+     * checkPhoto
+     *  Verifica se tem uma foto salva pra o produto em questão, se não tiver
+     *  retorna a foto padrão.
+     *
+     * @return void
+     */
     private function checkPhoto(){
         if(file_exists($_SERVER['DOCUMENT_ROOT'] . '/res/site/img/products/'.$this->getidproduct() . '.webp'))
         {
@@ -77,14 +126,28 @@ class Product extends Model{
         $this->setdesphoto($url);
     
     }
-
+    
+    /**
+     * getValues
+     * Retorna os atributos do objeto.
+     *
+     * @return object Product
+     */
     public function getValues()
     {
         $this->checkPhoto();
         
         return parent::getValues();
     }
-
+    
+    /**
+     * setPhoto
+     *  Recebe uma foto em um dos fomatos('jpeg', 'gif', 'webp') e salva no formato webp,
+     *  com o nome id do objeto.
+     *
+     * @param  mixed $file
+     * @return void
+     */
     public function setPhoto($file)
     {
         $extension = explode('.', $file['name']);
@@ -117,7 +180,14 @@ class Product extends Model{
         $this->checkPhoto();
         
     }
-
+    
+    /**
+     * getFromUrl
+     *  Busca no banco o objeto dono da URL dada.
+     *
+     * @param  mixed $url
+     * @return void
+     */
     public function getFromUrl($url)
     {
         $sql = new Sql();
@@ -128,7 +198,13 @@ class Product extends Model{
 
         $this->setValues($result[0]);
     }
-
+    
+    /**
+     * getCategories
+     *  Busca no banco todas as categoria que o objeto pertence.
+     *
+     * @return array
+     */
     public function getCategories()
     {
         $sql = new Sql;

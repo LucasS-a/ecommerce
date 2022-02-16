@@ -9,6 +9,12 @@ use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use Twig\Extension\DebugExtension;
 
+/**
+ * Mailer
+ * Classe responsável por criar e enviar email.
+ * 
+ * @copyright (c) 2021, Lucas S. de Araujo
+ */
 class Mailer{
     const USERNAME = "florentinadasilva50@gmail.com";
     const PASSWORD = "1qazxswcde#";
