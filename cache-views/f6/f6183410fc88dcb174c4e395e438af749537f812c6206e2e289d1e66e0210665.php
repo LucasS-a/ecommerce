@@ -69,7 +69,20 @@ class __TwigTemplate_107e0380d00c94dcb26efaf7eed79f11fa5a86371ae274464e5d778ac1e
                             <li><a href=\"#\"><i class=\"fa fa-user\"></i> Minha Conta</a></li>
                             <li><a href=\"#\"><i class=\"fa fa-heart\"></i> Lista de Desejos</a></li>
                             <li><a href=\"/cart\"><i class=\"fa fa-shopping-cart\"></i> Meu Carrinho</a></li>
-                            <li><a href=\"#\"><i class=\"fa fa-lock\"></i> Login</a></li>
+                            ";
+        // line 17
+        if ("checkLogin(false)") {
+            // line 18
+            echo "                                <li><a href=\"/profile\"><i class=\"fa fa-user\"></i> lembrete </a></li>
+                                <li><a href=\"/logout\"><i class=\"fa fa-close\"></i> Logout</a></li>
+                            ";
+        } else {
+            // line 21
+            echo "                                <li><a href=\"/login\"><i class=\"fa fa-lock\"></i> Login</a></li>
+                            ";
+        }
+        // line 22
+        echo " 
                         </ul>
                     </div>
                 </div>
@@ -153,7 +166,7 @@ class __TwigTemplate_107e0380d00c94dcb26efaf7eed79f11fa5a86371ae274464e5d778ac1e
 
     public function getDebugInfo()
     {
-        return array (  63 => 8,  59 => 7,  53 => 4,  47 => 3,  36 => 1,);
+        return array (  85 => 22,  81 => 21,  76 => 18,  74 => 17,  63 => 8,  59 => 7,  53 => 4,  47 => 3,  36 => 1,);
     }
 
     public function getSourceContext()

@@ -4,15 +4,16 @@ use Hcode\Model\Category;
 use Hcode\Model\Cart;
 use Hcode\Model\Product;
 use Hcode\Model\User;
+use Hcode\Model\Address;
 use Hcode\Page;
 
 $app->get('/', 
     function($request, $response, $arg)
-    {
+    {        
         $page = new Page();
 
         $products = Product::listAll();
-
+        
         $products = Product::checkList($products);
 
         $page->setTpl('index.html.twig',[
@@ -72,15 +73,19 @@ $app->get('/products/{desurl}',
 
 $app->get('/cart',
     function()
-    {
-        $cart = Cart::getFromSession();
+    {   
+        $cart = new cart;
+        
+        if(isset($_SESSION[User::SESSION]) && $_SESSION[User::SESSION]['iduser'])
+        {            
+            $cart->getFromSessionUser();
+
+            $cart->setToSession();
+        }else{
+            $cart = Cart::getFromSession();
+        }
 
         $products  = $cart->getProducts();
-
-        if (!count($products) > 0)
-        {
-            $_SESSION[Cart::SESSION] = NULL;
-        }
 
         $page = new Page();
 
@@ -150,6 +155,60 @@ $app->post('/cart/freight',
         $cart->setFreight($_POST['zipcode']);
 
         header('location: /cart');
+    }
+);
+
+$app->get('/checkout',
+    function()
+    {
+        User::verifyLogin(false);
+
+        $address = new Address();
+
+        $cart = Cart::getFromSession();
+
+        $page = new Page();
+
+        $page->setTpl('checkout.html.twig', [
+            'cart'    => $cart,
+            'address' => $address->getValues()
+        ]);
+    }
+);
+
+$app->get('/login',
+    function()
+    {
+        $page = new Page();
+
+        $page->setTpl('login.html.twig',[
+            'error' => User::getMsgError()
+        ]);
+    }
+);
+
+$app->post('/login',
+    function()
+    {
+        try{
+            User::login( $_POST['login'], $_POST['password'] );
+        }catch(Exception $e) {
+            User::setMsgError($e->getMessage());
+        }
+
+        header("location: /checkout");
+
+        exit;
+    }
+);
+
+$app->get('/logout',
+    function(){
+        User::logout();
+
+        header("location: /login");
+
+        exit;
     }
 );
 ?>

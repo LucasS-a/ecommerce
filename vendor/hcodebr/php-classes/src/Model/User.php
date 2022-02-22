@@ -16,6 +16,7 @@ use Hcode\Model;
 class User extends Model{
 
     const SESSION = 'User';
+    const ERROR = 'User_Erro';
     const SECRET_KEY = "HcodePhp7_Secret";
     const SECRET_IV = "This is my secret iv";
 
@@ -31,10 +32,12 @@ class User extends Model{
     {
         $sql = new Sql();
 
-        $results = $sql->select("SELECT * FROM tb_users WHERE deslogin=:LOGIN", [
-            'LOGIN' => $login
-        ]);
-        
+        $results = $sql->select("SELECT * FROM
+                                 tb_users a INNER JOIN tb_persons b 
+                                 WHERE a.deslogin=:LOGIN and b.idperson=a.idperson", [
+                                    'LOGIN' => $login
+                                ]);
+
         if( count($results) == 0)
         {
             throw new \Exception("Usuário inexistente ou senha inválida.");
@@ -45,6 +48,8 @@ class User extends Model{
         if(password_verify($password, $data['despassword']))
         {
             $user = new User();
+
+            $data[0]['desperson'] = utf8_encode($data[0]['desperson']);
 
             $user->setValues($data);
 
@@ -100,7 +105,7 @@ class User extends Model{
                 return TRUE;
             } else if ($inadmin === FALSE )
             {
-                // Está loganado em uma rota que não é de administrador.
+                // Está logando em uma rota que não é de administrador.
                 return TRUE;
             }else{
                 // Está logando uma rota de administrador sem ter acesso.
@@ -121,8 +126,14 @@ class User extends Model{
     public static function verifyLogin($inadmin = TRUE)
     {
         if (!User::checkLogin($inadmin)){
-            header("Location: /admin/login");
-            exit;
+            if ($inadmin)
+            {
+                header("Location: /admin/login");
+                exit;
+            } else {
+                header("Location: /login");
+                exit;
+            }
         }
     }
         
@@ -135,7 +146,6 @@ class User extends Model{
     public static function logout()
     {
         $_SESSION[User::SESSION] = NULL;
-        $_SESSION[Cart::SESSION] = NULL;
     }
 
         
@@ -149,7 +159,13 @@ class User extends Model{
     {
         $sql = new Sql();
 
-        return $sql->select('SELECT * FROM tb_users a INNER JOIN tb_persons b USING(idperson) ORDER BY b.desperson');
+        $results = $sql->select('SELECT * FROM tb_users a INNER JOIN tb_persons b USING(idperson) ORDER BY b.desperson');
+       
+        foreach ($results as &$user) {
+            $user['desperson'] = utf8_encode($user['desperson']);
+        }
+        
+        return $results;
     }
     
     /**
@@ -163,7 +179,7 @@ class User extends Model{
         $sql = new Sql();
 
         $results = $sql->select("CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", [
-            'desperson'   => $this->getdesperson(),
+            'desperson'   => utf8_decode($this->getdesperson()),
             'deslogin'    => $this->getdeslogin(),
             'despassword' => $this->getdespassword(),
             'desemail'    => $this->getdesemail(),
@@ -190,6 +206,8 @@ class User extends Model{
             'iduser' => $iduser
         ]);
 
+        $results[0]['desperson'] = utf8_encode($results[0]['desperson']);
+
         $this->setValues($results[0]);
     }
     
@@ -206,13 +224,15 @@ class User extends Model{
         $results = $sql->select("CALL sp_usersupdate_save(:iduser, :desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)",
         array(
             ":iduser" => $this->getiduser(),
-            ":desperson" => $this->getdesperson(),
+            ":desperson" => utf8_decode($this->getdesperson()),
             ":deslogin" => $this->getdeslogin(),
             ":despassword" => $this->getdespassword(),
             ":desemail" => $this->getdesemail(),
             ":nrphone" => $this->getnrphone(),
             ":inadmin" => $this->getinadmin()
         ));
+
+        $results[0]['desperson'] = utf8_encode($results[0]['desperson']);
         
         $this->setValues($results[0]);
     }
@@ -249,6 +269,8 @@ class User extends Model{
         $results = $sql->select("SELECT * FROM tb_persons a INNER JOIN tb_users b USING(idperson) WHERE a.desemail = :desemail", [
             'desemail' => $email
         ]);
+
+        $results[0]['desperson'] = utf8_encode($results[0]['desperson']);
 
         if (count($results) === 0)
         {
@@ -365,6 +387,43 @@ class User extends Model{
             ":iduser" => $this->getiduser()
         ));
 
+    }
+    /**
+     * setMsgError
+     * Seta uma mensagem de erro.
+     *
+     * @param  mixed $msgError
+     * @return void
+     */
+    public static function setMsgError($msgError)
+    {
+        $_SESSION[User::ERROR] = $msgError;
+    }
+    
+    /**
+     * getMsgError
+     * Verifica se teve algum erro vinculado a essa sessão e o retorna.
+     *
+     * @return string
+     */
+    public static function getMsgError()
+    {
+        $msg = isset($_SESSION[User::ERROR]) ? $_SESSION[User::ERROR] : '';
+
+        User::clearMsgError();
+
+        return $msg;
+    }
+    
+    /**
+     * clearMsgError
+     * Exclui a mensagem de erro vinculado a essa sessão
+     *
+     * @return void
+     */
+    public static function clearMsgError()
+    {
+        $_SESSION[User::ERROR] = NULL;
     }
 }
 

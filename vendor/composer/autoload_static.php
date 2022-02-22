@@ -39,6 +39,7 @@ class ComposerStaticInitcb457dbbb744e106e8b936452b969c3c
         ),
         'F' => 
         array (
+            'FunctionHcode\\' => 14,
             'FastRoute\\' => 10,
         ),
     );
@@ -79,6 +80,10 @@ class ComposerStaticInitcb457dbbb744e106e8b936452b969c3c
         'Hcode\\' => 
         array (
             0 => __DIR__ . '/..' . '/hcodebr/php-classes/src',
+        ),
+        'FunctionHcode\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/hcodebr/function',
         ),
         'FastRoute\\' => 
         array (

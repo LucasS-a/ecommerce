@@ -4,6 +4,7 @@ namespace Hcode;
 
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
+use FunctionHcode\Functions;
 
 /**
  * Page
@@ -48,6 +49,10 @@ class Page
         ]);
 
         $this->twig = new Environment($this->loader, $config);
+
+        foreach (Functions::getFunctions() as $key => $value) {
+            $this->twig->addFunction($value);
+        }
 
         $template = $this->twig->load('header.html.twig');
         

@@ -28,7 +28,7 @@ class Cart extends Model
     public static function getFromSession()
     {
         $cart = new Cart();
-
+                
         if(isset($_SESSION[Cart::SESSION]) && (int)$_SESSION[Cart::SESSION]['idcart'] > 0)
         {
             $cart->get((int)$_SESSION[Cart::SESSION]['idcart']);
