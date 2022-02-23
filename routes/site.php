@@ -182,7 +182,9 @@ $app->get('/login',
         $page = new Page();
 
         $page->setTpl('login.html.twig',[
-            'error' => User::getMsgError()
+            'error' => User::getMsgError(),
+            'register_error' => User::getRegisterError(),
+            'registerValues' => isset($_SESSION["registerValues"]) ? $_SESSION['registerValues'] : ['name'=>'', 'email'=>'', 'phone'=>''],
         ]);
     }
 );
@@ -208,6 +210,61 @@ $app->get('/logout',
 
         header("location: /login");
 
+        exit;
+    }
+);
+
+$app->post('/register',
+    function(){
+
+        $_SESSION["registerValues"] = $_POST;
+
+        if(!isset($_POST['name']) || $_POST['name'] == '')
+        {
+            User::setRegisterError('Preencha o campo do nome!');
+
+            header('location: /login');
+            exit;
+        }
+        if(!isset($_POST['email']) || $_POST['email'] == '')
+        {
+            User::setRegisterError('Preencha o campo do e-mail!');
+
+            header('location: /login');
+            exit;
+        }
+        
+        if(!isset($_POST['password']) || $_POST['password'] == '')
+        {
+            User::setRegisterError('Preencha o campo do password!');
+
+            header('location: /login');
+            exit;
+        }
+
+        if ( User::checkLoginExist($_POST['email'])) {
+            User::setRegisterError('Esse e-mail já foi cadastrado!');
+
+            header('location: /login');
+            exit;
+        }
+
+        $user = new User();
+
+        $user->setValues([
+            'inadmin'   => 0,
+            'desperson' => $_POST['name'],
+            'deslogin'  => $_POST['email'],
+            'nrphone'   => $_POST['phone'],
+            'desemail'  => $_POST['email'],
+            'despassword' => $_POST['password']
+        ]);
+
+        $user->save();
+
+        User::login($_POST['email'], $_POST['password']);
+
+        header("location: /checkout");
         exit;
     }
 );

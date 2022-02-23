@@ -17,6 +17,7 @@ class User extends Model{
 
     const SESSION = 'User';
     const ERROR = 'User_Erro';
+    const REGISTER_ERROR = 'Register_Error';
     const SECRET_KEY = "HcodePhp7_Secret";
     const SECRET_IV = "This is my secret iv";
 
@@ -177,7 +178,7 @@ class User extends Model{
     public function save()
     {
         $sql = new Sql();
-
+        
         $results = $sql->select("CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", [
             'desperson'   => utf8_decode($this->getdesperson()),
             'deslogin'    => $this->getdeslogin(),
@@ -390,6 +391,44 @@ class User extends Model{
     }
     /**
      * setMsgError
+     * Seta uma mensagem de erro relacionado ao registro.
+     *
+     * @param  mixed $msgError
+     * @return void
+     */
+    public static function setRegisterError($registerError)
+    {
+        $_SESSION[User::REGISTER_ERROR] = $registerError;
+    }
+    
+    /**
+     * getMsgError
+     * Verifica se teve algum erro vinculado a essa sessão e o retorna.
+     *
+     * @return string
+     */
+    public static function getRegisterError()
+    {
+        $msg = isset($_SESSION[User::REGISTER_ERROR]) ? $_SESSION[User::REGISTER_ERROR] : '';
+
+        User::clearRegisterError();
+
+        return $msg;
+    }
+    
+    /**
+     * clearMsgError
+     * Exclui a mensagem de erro vinculado a essa sessão
+     *
+     * @return void
+     */
+    public static function clearRegisterError()
+    {
+        $_SESSION[User::REGISTER_ERROR] = NULL;
+    }
+
+    /**
+     * setMsgError
      * Seta uma mensagem de erro.
      *
      * @param  mixed $msgError
@@ -424,6 +463,17 @@ class User extends Model{
     public static function clearMsgError()
     {
         $_SESSION[User::ERROR] = NULL;
+    }
+
+    public static function checkLoginExist( $login )
+    {
+        $sql = new Sql();
+
+        $results = $sql->select('SELECT * FROM tb_users WHERE deslogin = :LOGIN',[
+            'LOGIN' => $login
+        ]);
+
+        return (count($results) > 0);
     }
 }
 

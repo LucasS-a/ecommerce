@@ -94,26 +94,46 @@ class __TwigTemplate_08c12382783ecc08c371c4ffbf1a8f8ad3cb4adadc4ce83a3a3b95b4336
             </div>
             <div class=\"col-md-6\">
                 
-                <div class=\"alert alert-danger\">
-                    Error!
-                </div>
+                ";
+        // line 53
+        if ((0 !== twig_compare(($context["register_error"] ?? null), ""))) {
+            // line 54
+            echo "                    <div class=\"alert alert-danger\">
+                    ";
+            // line 55
+            echo twig_escape_filter($this->env, ($context["register_error"] ?? null), "html", null, true);
+            echo "
+                    </div>
+                ";
+        }
+        // line 58
+        echo "                
 
                 <form id=\"register-form-wrap\" action=\"/register\" class=\"register\" method=\"post\">
                     <h2>Criar conta</h2>
                     <p class=\"form-row form-row-first\">
                         <label for=\"nome\">Nome Completo <span class=\"required\">*</span>
                         </label>
-                        <input type=\"text\" id=\"nome\" name=\"name\" class=\"input-text\" value=\"\">
+                        <input type=\"text\" id=\"nome\" name=\"name\" class=\"input-text\" value=\"";
+        // line 65
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["registerValues"] ?? null), "name", [], "any", false, false, false, 65), "html", null, true);
+        echo "\">
                     </p>
                     <p class=\"form-row form-row-first\">
                         <label for=\"email\">E-mail <span class=\"required\">*</span>
                         </label>
-                        <input type=\"email\" id=\"email\" name=\"email\" class=\"input-text\" value=\"\">
+                        <input type=\"email\" id=\"email\" name=\"email\" class=\"input-text\" value=\"";
+        // line 70
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["registerValues"] ?? null), "email", [], "any", false, false, false, 70), "html", null, true);
+        echo "\">
                     </p>
                     <p class=\"form-row form-row-first\">
                         <label for=\"phone\">Telefone
                         </label>
-                        <input type=\"text\" id=\"phone\" name=\"phone\" class=\"input-text\" value=\"\">
+                        <input type=\"text\" id=\"phone\" name=\"phone\" class=\"input-text\" value=\"";
+        // line 75
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["registerValues"] ?? null), "phone", [], "any", false, false, false, 75), "html", null, true);
+        echo "\">
                     </p>
                     <p class=\"form-row form-row-last\">
                         <label for=\"senha\">Senha <span class=\"required\">*</span>
@@ -146,7 +166,7 @@ class __TwigTemplate_08c12382783ecc08c371c4ffbf1a8f8ad3cb4adadc4ce83a3a3b95b4336
 
     public function getDebugInfo()
     {
-        return array (  69 => 25,  63 => 22,  60 => 21,  58 => 20,  37 => 1,);
+        return array (  135 => 75,  127 => 70,  119 => 65,  110 => 58,  104 => 55,  101 => 54,  99 => 53,  69 => 25,  63 => 22,  60 => 21,  58 => 20,  37 => 1,);
     }
 
     public function getSourceContext()
